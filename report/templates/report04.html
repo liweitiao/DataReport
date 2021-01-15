@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>数据输入界面</title>
+    <link rel="stylesheet" href="../static/css/calender.css">
+    <link rel="stylesheet" href="../static/css/report04.css">
+</head>
+<body>
+{#    <button type="button" id="openDialog">点击添加数据</button>#}
+<section>
+    <p class="head">蔬菜部公司经济任务完成情况明细表数据输入界面</p>
+    <p class="tip">提示：先点击 <点击修改或者添加下列数据> 按钮，再填写下方所有的输入框</p>
+    <div>
+        <label>　　　　　费用项目：</label>
+        <select name="item_name" id="item_name" >
+        <option value="1" label="大档佣金">大档佣金</option>
+        <option value="2" label="大档管理费">大档管理费</option>
+        <option value="3" label="阁楼租金">阁楼租金</option>
+        <option value="4" label="仓库租金">仓库租金</option>
+        <option value="5" label="车板租金">车板租金</option>
+        <option value="6" label="过磅费">过磅费</option>
+        <option value="7" label="违约金">违约金</option>
+        <option value="8" label="冻品管理费">冻品管理费</option>
+        <option value="9" label="地摊租金">地摊租金</option>
+        <option value="10" label="综合市场场地">综合市场场地</option>
+        <option value="11" label="合计">合计</option>
+        </select>
+    </div>
+
+
+    {# 日历时间选择器 #}
+    <div class="dateDiv">
+        <label>　　　　　报表日期：</label>
+        <input type="text" class="date_picker list-input">
+        <p><button class="show">点击修改或者添加下列数据</button></p>
+    </div>
+
+    <div class="budget_allyear">
+        <label>　　　　　全年预算：</label>
+        <input type="text" placeholder=" 请输入全年预算" id="budget_allyear" class="list-input">
+    </div>
+
+    <div class="budget_month_accumulative">
+        <label>　截止本月预算应收：</label>
+        <input type="text" placeholder=" 请输入截止本月预算应收"  id="budget_month_accumulative" class="list-input">
+    </div>
+
+    <div class="receipts_month_accumulative">
+        <label>　截止本月累计实收：</label>
+        <input type="text" placeholder=" 请输入截止本月累计实收" id="receipts_month_accumulative" class="list-input">
+    </div>
+
+    <div class="completion_rate_accumulative">
+        <label>截止本月累计完成率：</label>
+        <input type="text" placeholder=" 请输入截止本月累计完成率" id="completion_rate_accumulative" class="list-input">
+    </div>
+
+    <div class="budget_completion_rate">
+        <label>　　全年预算完成率：</label>
+        <input type="text" placeholder=" 请输入全年预算完成率" id="budget_completion_rate" class="list-input">
+    </div>
+
+    <div class="last_year">
+        <label>　　　　　上年同期：</label>
+        <input type="text" placeholder=" 请输入上年同期" id="last_year" class="list-input">
+    </div>
+
+    <div class="growth_rate">
+        <label>　　　　　　　增幅：</label>
+        <input type="text" placeholder=" 请输入增幅" id="growth_rate" class="list-input">
+    </div>
+
+    <div class="arrears_accumulative">
+        <label>　　　　　累计欠费：</label>
+        <input type="text" placeholder=" 请输入累计欠费" id="arrears_accumulative" class="list-input">
+    </div>
+
+    <div class="receivable_currentmonth">
+        <label>　　　　　本月应收：</label>
+        <input type="text" placeholder=" 请输入本月应收" id="receivable_currentmonth" class="list-input">
+    </div>
+
+    <div class="receipts_currentmonth">
+        <label>　　　　　本月实收：</label>
+        <input type="text" placeholder=" 请输入本月实收" id="receipts_currentmonth" class="list-input">
+    </div>
+
+    <div class="completion_rate_currentmonth">
+        <label>　　　　本月完成率：</label>
+        <input type="text" placeholder=" 请输入本月完成率" id="completion_rate_currentmonth" class="list-input">
+    </div>
+
+    <div class="submit">
+        <button class="update" disabled="disabled">确认修改数据</button>
+        <button class="add" disabled="disabled">确认添加数据</button>
+    </div>
+</section>
+
+</body>
+
+<script src="../static/js/jquery-1.12.4.min.js"></script>
+<script src="../static/js/jquery.date_input.pack.js"></script>
+<script src="../static/js/economictask.js">
+
+
+</script>
+</html>

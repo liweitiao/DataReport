@@ -1,0 +1,114 @@
+1、合同查询
+ SELECT 
+				s.storecontracttypeoid,
+				s.contracttype,
+				s.seatno,
+				s.state,
+				s.sumarea,
+				s.sumarea1,			
+				S.DEPARTMENTNAME
+FROM V_storecontract@hgeb S  
+where 
+-- s.contracttype = '大宗蔬菜交易区' and
+S.STATE = '启用' 
+
+
+----------------------------------
+ SELECT 
+				s.seatno,
+				s.sumarea,
+				s.sumarea1
+FROM V_storecontract@hgeb S  
+where 
+s.contracttype = '大宗蔬菜交易区' and
+S.STATE = '启用' 
+
+--------------------------------------------------------
+ SELECT 
+				"COUNT"(case when s.seatno like 'B1%'  then 1 else null end) "B1",
+				"COUNT"(case when s.seatno like 'B2%'  then 1 else null end) "B2",
+				"COUNT"(case when s.seatno like 'B3%' or s.seatno  in ('PB3-103', 'PB3-104')  then 1 else null end) "B3",
+				"COUNT"(case when s.seatno like 'B4%' or s.seatno  in ('PB4-103', 'PB4-104')  then 1 else null end) "B4",
+				"COUNT"(case when s.seatno like 'B5%' or s.seatno  in ('PB5-103', 'PB5-104')  then 1 else null end) "B5",
+				"COUNT"(case when s.seatno like 'B6%' or s.seatno  in ('PB6-103', 'PB6-104')  then 1 else null end) "B6",
+"SUM"(case when s.seatno like 'B1%'  then s.sumarea else null end) "sum01B1",
+"SUM"(case when s.seatno like 'B2%'  then s.sumarea else null end) "sum01B2",
+				"SUM"(case when s.seatno like 'B3%' or s.seatno  in ('PB3-103', 'PB3-104')  then s.sumarea else null end) "sum01B3",
+				"SUM"(case when s.seatno like 'B4%' or s.seatno  in ('PB4-103', 'PB4-104')  then s.sumarea else null end) "sum01B4",
+				"SUM"(case when s.seatno like 'B5%' or s.seatno  in ('PB5-103', 'PB5-104')  then s.sumarea else null end) "sum01B5",
+				"SUM"(case when s.seatno like 'B6%' or s.seatno  in ('PB6-103', 'PB6-104')  then s.sumarea else null end) "sum01B6"
+
+-- 				s.sumarea,
+-- 				s.sumarea1
+FROM V_storecontract@hgeb S  
+where 
+s.contracttype = '大宗蔬菜交易区' and
+S.STATE = '启用' 
+
+
+
+2、物业资料查询
+ select t.sf_storetypename ,
+				a.SEATPOS,
+				a.SEATNAME,   
+				a.OTHERSEATNO,
+				a.AREA,
+				sf.sf_areaname ,
+				a.AREA1,
+				d.name as DEPARTMENTNAME,
+				a.SEATNO,   
+CASE WHEN A.SEATNAME='非出租物业' THEN '不可租'         
+WHEN A.SEATNAME='已停用物业' THEN '已停用'         
+WHEN NVL(V.SF_STORECONTRACTOID, 0)=0 THEN '待租'         
+ELSE '已租' END AS STATE
+from SF_STOREFRONT_rp A  
+left join sf_storetype_rp t on a.storetype = t.sf_storetypeoid  
+left join department_rp d on a.departmentoid = d.departmentoid  
+left join sf_area_rp  sf on a.sf_areaoid = sf.sf_areaoid  
+left join 
+(   
+SELECT G2.SF_STORECONTRACTOID, G1.SF_STOREFRONTOID      
+FROM SF_STORECONTRACTITEM_rp G1       
+INNER JOIN SF_STORECONTRACT_rp G2 ON G1.SF_STORECONTRACTOID=G2.SF_STORECONTRACTOID             
+AND SYSDATE>=G2.BEGINDATE AND SYSDATE<=G2.ENDDATE      
+) V 
+ON V.SF_STOREFRONTOID=A.SF_STOREFRONTOID  
+where 
+d.name = '蔬菜管理部'
+and A.SEATNAME in ('可出租物业')
+and a.SEATPOS in ('车板A区','车板B区','B1交易区','B2交易区','B3交易区','B3交易区（原七号结算点）','B4交易区','B5交易区','B6交易区','车板地摊区',
+'D1交易区','D2交易区','车板地摊区（原为D20）','车板地摊区（原为D21）','车板地摊区（原为D22）','车板地摊区（原为D23）','13#冷库')
+-- 1 = 1  
+order by SEATNO 
+
+-----------------------------------------------------------------------------------------------------------
+ select t.sf_storetypename ,
+				a.SEATPOS,
+				a.SEATNAME,   
+				a.OTHERSEATNO,
+				a.AREA,
+				sf.sf_areaname ,
+				a.AREA1,
+				d.name as DEPARTMENTNAME,
+				a.SEATNO,   
+CASE WHEN A.SEATNAME='非出租物业' THEN '不可租'         
+WHEN A.SEATNAME='已停用物业' THEN '已停用'         
+WHEN NVL(V.SF_STORECONTRACTOID, 0)=0 THEN '待租'         
+ELSE '已租' END AS STATE
+from SF_STOREFRONT_rp A  
+left join sf_storetype_rp t on a.storetype = t.sf_storetypeoid  
+left join department_rp d on a.departmentoid = d.departmentoid  
+left join sf_area_rp  sf on a.sf_areaoid = sf.sf_areaoid  
+left join 
+(   
+SELECT G2.SF_STORECONTRACTOID, G1.SF_STOREFRONTOID      
+FROM SF_STORECONTRACTITEM_rp G1       
+INNER JOIN SF_STORECONTRACT_rp G2 ON G1.SF_STORECONTRACTOID=G2.SF_STORECONTRACTOID             
+AND SYSDATE>=G2.BEGINDATE AND SYSDATE<=G2.ENDDATE      
+) V 
+ON V.SF_STOREFRONTOID=A.SF_STOREFRONTOID  
+where 
+d.name = '蔬菜管理部'
+and A.SEATNAME in ('可出租物业')
+and a.SEATPOS in ('B3交易区')
+order by SEATNO

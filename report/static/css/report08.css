@@ -1,0 +1,88 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    min-width: 1400px;
+}
+
+.dateDiv {
+    /*margin-top: 20px;*/
+    /*margin-bottom: 20px;*/
+    /*margin-left: 260px;*/
+    /*width:500px;*/
+}
+
+.dateDiv h3{
+    font-size: 16px;
+}
+
+.title{
+    margin-top: 30px;
+    margin-bottom: 40px;
+    margin-left: 660px;
+    color: black;
+    font-size: 22px;
+}
+
+.date_picker {
+    width:220px;
+    height: 18px;
+    background: #fefefe;
+    border: 1px solid rgb(230,230,230);
+    font-size: 14px;
+    color: #333;
+    padding: 7px;
+    border-radius: 3px;
+    display: inline;
+    margin-left: 8px;
+    position: relative;
+}
+
+.date_selector{
+    width: 216px;
+    position: fixed;
+    top: 5px;
+}
+
+.show {
+    /*width: 100px;*/
+    /*height: 30px;*/
+    display: inline;
+    position: relative;
+    /*left: 12px;*/
+    top: -2px;
+}
+
+.show:hover {
+    cursor: pointer;
+}
+
+.fixed-table-header{
+    background-color: #009933;
+    color: white;
+}
+
+.search{
+    /*margin-left: 140px;*/
+}
+
+.layui-input{
+    height: 32px;
+    width: 120px;
+    margin-left: 0px;
+}
+
+.layui-btn{
+    height: 32px;
+    width: 90px;
+    padding: 0 10px 10px 10px;
+    background-color: #009933;
+    line-height: 32px;
+}
+
+.layui-table-tool-panel li:first-child{
+    display: none;
+}
+

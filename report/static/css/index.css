@@ -1,0 +1,39 @@
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    background: url(../images/reportbg.jpg) no-repeat;
+    background-size: 100% 100%;
+}
+
+nav {
+    width: 740px;
+    height: 200px;
+    /*background-color: white;*/
+    margin: 0 auto;
+    padding-top: 90px;
+}
+
+nav div{
+    height: 100px;
+    padding-top: 6px;
+    background-color: #fffefd;
+}
+
+nav div p{
+    margin-left: 40px;
+    font-size: 20px;
+    color: #009933;
+}
+
+nav div ul li{
+    display: inline;
+}
+
+.list{
+    margin-left: 30px;
+}

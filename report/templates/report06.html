@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>来货量及产地结构信息统计</title>
+    <link rel="stylesheet" href="../static/css/report06.css">
+    <link rel="stylesheet" href="../static/css/calender.css">
+</head>
+<body>
+<div class="middle">
+
+    <h1>来货量及过磅金额日报</h1>
+    {# 日历时间选择器 #}
+{#    <div class="dateDiv">#}
+{#        <h3>选择报表的日期</h3>#}
+{#        <input type="text" class="date_picker">#}
+{#        <button class="show">点击显示报表</button>#}
+{#    </div>#}
+
+    {# 报表 #}
+    <div class="baobiao">
+
+        <div class="wrap">
+{#            <h2 class="title">蔬菜部档位来货量及过磅金额每日报表</h2>#}
+
+            <div class="dateDiv">
+                <h3>选择报表的日期</h3>
+                <input type="text" class="date_picker">
+                <button class="show">点击显示报表</button>
+            </div>
+            <a class="qingdan" href="/report08" target="_blank"><button>查看该日来货清单</button></a>
+            <a class="download"><button>导出表格</button></a>
+            <table>
+                <thead>
+                    <tr>
+
+                        <th rowspan="2" colspan="2">区域</th>
+
+                        <th colspan="2" class="yearAndMonth">日期</th>
+
+                        <th rowspan="2">增减量</th>
+
+                        <th rowspan="2">增减幅度</th>
+                    </tr>
+
+                    <tr>
+                        <th class="yesterday">19日</th>
+                        <th class="current">20日</th>
+                    </tr>
+                </thead>
+                <tbody id="j_tb">
+                    <tr>
+                        <td colspan="2" class="B">区域蔬菜总来货量(T)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" class="B0">大档区来货量(T)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" class="B1">B1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" class="B2">B2</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" class="B3">B3</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" class="B4">B4</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" class="B5">B5</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" class="B6">B6</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="2">车板区</td>
+                        <td class="B7">总来货量(T)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B8">过磅金额(元)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="2">基地菜固定档</td>
+                        <td class="B9">来货量(T)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B10">过磅金额(元)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="2">基地菜临时来货</td>
+                        <td class="B11">来货量(T)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B12">过磅金额(元)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" class="B13">玉米总来货量(T)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="2">玉米临时来货</td>
+                        <td class="B14">来货量(T)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B15">过磅金额(元)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" class="B16">车板固定档来货量(T)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="2">临时瓜豆</td>
+                        <td class="B17">来货量(T)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B18">过磅金额(元)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="2">临时水菜</td>
+                        <td class="B19">来货量(T)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B20">过磅金额(元)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td rowspan="2">临时菇类</td>
+                        <td class="B21">来货量(T)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B22">过磅金额(元)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" class="B23">天光区总来货量(T)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+    <script src="../static/js/jquery-1.12.4.min.js"></script>
+    <script src="../static/js/jquery.date_input.pack01.js"></script>
+{#    <script src="../static/js/echarts.js"></script>#}
+    <script src="../static/js/laihuoDoD.js"></script>
+    <script>
+
+    </script>
+</body>
+</html>

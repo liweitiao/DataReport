@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>商户信息汇总</title>
+    <link rel="stylesheet" href="../static/css/report_tenant_info.css">
+</head>
+<body>
+    <h1 class="title">商户信息汇总表</h1>
+    <div class="baobiao">
+        <div class="wrap">
+
+            <div class="div-inline first-search">
+                <div class="div-inline div-search">
+                   <input type="text" class="search-input js-name">
+                </div>
+                <button class="js-search-name but-search">搜索姓名</button>
+            </div>
+
+            <div class="div-inline">
+                <div class="div-inline div-search">
+                   <input type="text" class="search-input js-id">
+                </div>
+                <button class="js-search-id but-search">搜索身份证号/执照号</button>
+            </div>
+
+            <div class="div-inline"></div>
+                <a class="download"><button class="js-download but-search">导出表格</button></a>
+            </div>
+            <table>
+                <thead>
+                    <tr  class="sec js-tenant">
+                        <th>承租人</th>
+
+                        <th>身份证号码/执照号</th>
+
+                        <th>法人代表</th>
+
+                        <th>法人身份证号码</th>
+
+                        <th>法人住址</th>
+
+                        <th>承租人地址</th>
+
+                        <th>承租人联系电话</th>
+
+                        <th>籍贯</th>
+
+                        <th>民族</th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody id="j_tb">
+
+                    <tr id="B2">
+                        <td colspan="10" class="til">承租物业信息</td>
+                    </tr>
+
+                    <tr class="sec js-contract">
+                        <td>档位号</td>
+                        <td>建筑面积(m<sup>2</sup>)</td>
+                        <td>套内面积(m<sup>2</sup>)</td>
+                        <td>起租日期</td>
+                        <td>结束日期</td>
+                        <td>租赁年限(年)</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr id="B3">
+                        <td colspan="10" class="til">合同更名记录</td>
+                    </tr>
+
+                    <tr class="sec js-contract_record">
+                        <td>档位号</td>
+                        <td>变更日期</td>
+                        <td>变更类型</td>
+                        <td>变更前名称</td>
+                        <td>变更后名称</td>
+                        <td>关系</td>
+                        <td>备注</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr id="B4">
+                        <td colspan="10" class="til">经营信息</td>
+                    </tr>
+
+                    <tr class="sec js-management_info">
+                        <td>执照经营者</td>
+
+                        <td>营业执照号</td>
+                        <td>档位号</td>
+
+                        <td>经营品类(主营)</td>
+                        <td>营业执照名称</td>
+                        <td>自营基地</td>
+                        <td>联系电话</td>
+                        <td>其他市场经营</td>
+                        <td>备注</td>
+                        <td></td>
+                    </tr>
+
+                    <tr id="B5">
+                        <td colspan="10" class="til">来货情况</td>
+                    </tr>
+
+                    <tr class="sec js-goods">
+                        <td>档位号</td>
+                        <td>来货量(吨/年)</td>
+                        <td colspan="4">主要来货产地(吨/年)</td>
+                        <td colspan="4">主要来货品类(吨/年)</td>
+                    </tr>
+
+                    <tr id="B6">
+                        <td colspan="10" class="til">会员荣誉</td>
+                    </tr>
+
+                    <tr class="sec js-honor_info">
+                        <td>姓名</td>
+                        <td>身份证号</td>
+                        <td>年份</td>
+                        <td>获得荣誉</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr id="B7">
+                        <td colspan="10" class="til">停车卡</td>
+                    </tr>
+
+                    <tr class="sec js-parkingCard">
+                        <td>档位号</td>
+                        <td>停车卡</td>
+                        <td>姓名</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        
+                    </tr>
+
+                    <tr id="B8">
+                        <td colspan="10" class="til">违规记录</td>
+                    </tr>
+
+                    <tr class="sec js-penal">
+                        <td>档位</td>
+                        <td>姓名</td>
+                        <td colspan="3">违规情况</td>
+                        <td>处理结果</td>
+                        <td>日期</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <!-- <td></td>
+                        <td></td> -->
+                    </tr>
+
+                    <tr id="B9">
+                        <td colspan="10" class="til">从业人员信息</td>
+                    </tr>
+
+                    <tr class="sec js-employee">
+                        <td>姓名</td>
+                        <td>身份证号</td>
+                        <td>档位号</td>
+                        <td>职位</td>
+                        <td>身份证住址</td>
+                        <td>现居住地址</td>
+                        <td>联系电话</td>
+                        <td>民族</td>
+                        <td>性别</td>
+                        <td>籍贯</td>
+                    </tr>
+
+                    <tr id="B10">
+                        <td colspan="10" class="til">社会关系</td>
+                    </tr>
+
+                    <tr class="sec js-social_info">
+                        <td>姓名</td>
+                        <td>身份证号</td>
+                        <td>与档主关系</td>
+                        <td>籍贯</td>
+                        <td>身份证住址</td>
+                        <td>现居住地址</td>
+                        <td>联系电话</td>
+                        <td>关联档位</td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+
+    </div>
+
+    <script src="../static/js/jquery-1.12.4.min.js"></script>
+    <script src="../static/js/report_tenant_info.js"></script>
+
+    <script type="text/html">
+        var oid = document.getElementById('B1')
+        $(function(){
+                setTimeout(()=>{
+                download()
+              }, 1000)
+        })
+    </script>
+
+</body>
+</html>

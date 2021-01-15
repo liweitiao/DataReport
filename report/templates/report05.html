@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>公司经济任务完成情况明细表</title>
+    <link rel="stylesheet" href="../static/css/report05.css">
+    <link rel="stylesheet" href="../static/css/calender.css">
+</head>
+<body>
+    <h1>经济任务</h1>
+    {# 日历时间选择器 #}
+    <div class="dateDiv">
+        <h3>选择报表的日期</h3>
+        <input type="text" class="date_picker">
+        <button class="show">点击显示报表</button>
+    </div>
+
+    {# 报表 #}
+    <div class="baobiao">
+
+        <div class="wrap">
+            <h2 class="title">蔬菜管理部公司经济任务完成情况明细表</h2>
+
+            <a class="download"><button>导出表格</button></a>
+            <table>
+                <thead>
+                    <tr>
+                        <th>部门</th>
+
+                        <th>费用预算</th>
+
+                        <th>全年预算</th>
+
+                        <th>截止本月预算应收</th>
+
+                        <th>截止本月累计实收</th>
+
+                        <th>截止本月累计完成率</th>
+
+                        <th>全年预算完成率</th>
+
+                        <th>上年同期</th>
+
+                        <th>增幅</th>
+
+                        <th>累计欠费</th>
+
+                        <th>本月应收</th>
+
+                        <th>本月实收</th>
+
+                        <th>本月完成率</th>
+
+                    </tr>
+                </thead>
+                <tbody id="j_tb">
+                    <tr>
+                        <td rowspan="11">蔬菜管理部</td>
+                        <td class="B1">大档佣金</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B2">大档管理费</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B3">阁楼租金</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B4">仓库租金</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B5">车板租金</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B6">过磅费</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+
+                    <tr>
+
+                        <td class="B7">违约金</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B8">冻品管理费</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B9">地摊租金</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B10">综合市场场地</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B11">合计</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {# 报表 #}
+    <div class="qianfei">
+
+        <div class="wrap">
+            <h2 class="title02">欠费责任区域报表</h2>
+
+            <a class="download"><button>导出表格</button></a>
+            <table>
+                <thead>
+                    <tr>
+                        <th>费用预算</th>
+
+                        <th>区域</th>
+
+                        <th>累计应收</th>
+
+                        <th>累计实收</th>
+
+                        <th>累计欠费</th>
+
+                        <th>责任人</th>
+
+                    </tr>
+                </thead>
+                <tbody id="j_tb02">
+                    <tr>
+                        <td class="Q1">大档佣金</td>
+                        <td>B1至B6</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>林桂国<br>方炳佳<br>吴文兵</td>
+                    </tr>
+
+                    <tr>
+                        <td class="Q2">大档管理<br>费</td>
+                        <td>B1至B6</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>林桂国<br>方炳佳<br>吴文兵</td>
+                    </tr>
+
+                    <tr>
+                        <td class="Q3">阁楼租金</td>
+                        <td>B1至B6</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>林桂国<br>方炳佳<br>吴文兵</td>
+                    </tr>
+
+                    <tr>
+                        <td class="Q4">仓库租金</td>
+                        <td>B1至B6、<br>D1至D2</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>林桂国<br>方炳佳<br>吴文兵</td>
+                    </tr>
+
+                    <tr>
+                        <td class="Q5">车板租金</td>
+                        <td>A区至B区</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>苏爱彬<br>方创城<br></td>
+                    </tr>
+
+                    <tr>
+                        <td class="Q6">过磅费</td>
+                        <td>车板A、<br>瓜豆、<br>菜农菜</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>苏爱彬<br>方创城<br></td>
+                    </tr>
+
+
+                    <tr>
+
+                        <td class="Q7">违约金</td>
+                        <td>全部区域</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>班长<br>副班长<br></td>
+                    </tr>
+
+                    <tr>
+                        <td class="Q8">冻品管理<br>费</td>
+                        <td>D1至D2</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>孔俊雄<br><br></td>
+                    </tr>
+
+                    <tr>
+                        <td class="Q9">地摊租金</td>
+                        <td>地摊</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>林庆光<br>蓝宝镇<br></td>
+                    </tr>
+
+                    <tr>
+                        <td class="Q10">综合市场<br>场地租金</td>
+                        <td>综合市场</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>林庆光<br>蓝宝镇<br></td>
+                    </tr>
+
+                    <tr>
+                        <td class="Q11" colspan="2">合计</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>-----</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="bingtu">
+        <div id="Shishou"></div>
+        <div id="Shouru"></div>
+    </div>
+
+
+    <script src="../static/js/jquery-1.12.4.min.js"></script>
+    <script src="../static/js/jquery.date_input.pack.js"></script>
+    <script src="../static/js/echarts.js"></script>
+    <script src="../static/js/economicTaskRP.js"></script>
+    <script>
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.dateDiv {
+    margin-top: 20px;
+    /*margin-bottom: 20px;*/
+    margin-left: 260px;
+    width:500px;
+}
+
+.dateDiv h3{
+    font-size: 18px;
+}
+
+.title{
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 260px;
+}
+
+.date_picker {
+    width:246px;
+    height: 30px;
+    background: #fefefe;
+    border: 1px solid #bbb;
+    font-size: 14px;
+    color: #333;
+    padding: 7px;
+    border-radius: 3px;
+    display: inline;
+}
+
+.date_selector{
+    width: 246px;
+}
+
+.show {
+    width: 100px;
+    height: 30px;
+    display: inline;
+    position: relative;
+    left: 248px;
+    top: -30px;
+}
+
+.show:hover {
+    cursor: pointer;
+}
+
+.fixed-table-header{
+    background-color: #009933;
+    color: white;
+}

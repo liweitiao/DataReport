@@ -1,0 +1,150 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+h1{
+    margin-left: 700px;
+    margin-top: 30px;
+}
+
+.dateDiv {
+    /*margin:40px auto;*/
+    margin-top: 40px;
+    margin-bottom: 40px;
+    margin-left: 260px;
+    width:500px;
+}
+
+.date_picker {
+    width:226px;
+    background: #fefefe;
+    border: 1px solid #bbb;
+    font-size: 14px;
+    color: #333;
+    padding: 7px;
+    border-radius: 3px;
+}
+
+.show {
+    width: 100px;
+    height: 30px;
+    /*background-color: #3a930d;*/
+}
+
+.show:hover {
+    cursor: pointer;
+}
+
+.baobiao h2{
+    margin-left: 140px;
+    margin-right: 66px;
+    margin-bottom: 10px;
+    display: inline;
+}
+
+.baobiao .download{
+    /*background-color: #3a930d;*/
+    cursor: pointer;
+    width: 70px;
+    margin-left: 80px;
+}
+
+.wrap {
+    /*width: 410px;*/
+    /*margin: 60px auto 0;*/
+    margin-left: 20px;
+    float: left;
+}
+
+table {
+    margin-top: 10px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid #c0c0c0;
+}
+
+th,
+td {
+    border: 1px solid #d0d0d0;
+    color: #404060;
+    padding: 8px 2px;
+    /*width: 100px;*/
+}
+
+th {
+    background-color: #009933;
+    font: bold 13px "Î¢ÈíÑÅºÚ";
+    color: #fff;
+    width: 78px;
+}
+
+td {
+    font: 14px "Î¢ÈíÑÅºÚ";
+    text-align: center;
+    height: 23px;
+}
+
+
+tbody tr {
+    background-color: #f0f0f0;
+}
+
+tbody tr:hover {
+    /*cursor: pointer;*/
+    background-color: #fafafa;
+}
+
+.bingtu {
+    margin-left: 20px;
+    /*margin-top: 30px;*/
+    width: 524px;
+    height:704px;
+    border: solid 1px #d0d0d0;
+    /*display: inline-block;*/
+    float: left;
+    overflow: visible;
+}
+
+#cheliang {
+    width: 520px;
+    height: 340px;
+    border-bottom: solid 1px #d0d0d0;
+    /*background-color: #d0d0d0;*/
+}
+
+#chandi {
+    width: 520px;
+    height: 362px;
+    /*background-color: #d0d0d0;*/
+}
+
+.zhexian {
+    margin-top: 20px;
+    margin-left: -30px;
+    /*width: 1460px;*/
+    height: 600px;
+    border: solid 1px #d0d0d0;
+    float: left;
+}
+
+#cheshu {
+    width: 780px;
+    height: 600px;
+    /*background-color: #d0d0d0;*/
+    float: left;
+    z-index: 2;
+}
+
+#laihuo {
+    margin-left: -80px;
+    width: 780px;
+    height: 600px;
+    float: left;
+    z-index: 1;
+    /*background-color: #d0d0d0;*/
+}
+
+body {
+    min-width: 1500px;
+}

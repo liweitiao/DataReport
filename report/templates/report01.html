@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>来货量及产地结构信息统计</title>
+    <link rel="stylesheet" href="../static/css/report01.css">
+    <link rel="stylesheet" href="../static/css/calender.css">
+</head>
+<body>
+    <h1>来货月报</h1>
+    {# 日历时间选择器 #}
+    <div class="dateDiv">
+        <h3>选择报表的日期</h3>
+        <input type="text" class="date_picker">
+        <button class="show">点击显示报表</button>
+    </div>
+
+    {# 报表 #}
+    <div class="baobiao">
+
+        <div class="wrap">
+            <h2 class="title">蔬菜管理部档位来货量及产地结构信息统计分析报表</h2>
+
+{#            <a class="download">导出表格</a>#}
+            <a class="download"><button>导出表格</button></a>
+            <table>
+                <thead>
+                    <tr>
+                        <th rowspan="2">部门</th>
+
+                        <th rowspan="2" colspan="2">区域</th>
+
+                        <th rowspan="2">来货量(T)</th>
+
+                        <th rowspan="2">环比</th>
+
+                        <th colspan="6">来货车辆(辆)</th>
+
+                    </tr>
+
+                    <tr>
+                        <th>拖头车</th>
+
+                        <th>超大型</th>
+
+                        <th>大型</th>
+
+                        <th>小型</th>
+
+                        <th>合计</th>
+
+                        <th>环比</th>
+                    </tr>
+                </thead>
+                <tbody id="j_tb">
+                    <tr>
+                        <td rowspan="15">蔬菜管理部</td>
+                        <td rowspan="6">蔬菜大档</td>
+                        <td class="B1">B1</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B2">B2</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B3">B3</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B4">B4</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B5">B5</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B6">B6</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+
+                    <tr>
+
+                        <td rowspan="6">蔬菜车板</td>
+                        <td class="B7">蔬菜固定档</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B8">基地菜</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B9">玉米</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B10">瓜豆</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B11">水菜</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td class="B12">菇类</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td>地摊</td>
+                        <td class="B13">地摊固定档</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td>冻品</td>
+                        <td class="B14">D1/D2</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2" class="B15">合计</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bingtu">
+            <div id="cheliang"></div>
+            <div id="chandi"></div>
+        </div>
+    </div>
+
+    {#折线图#}
+    <div class="zhexian">
+        <div id="cheshu"></div>
+        <div id="laihuo"></div>
+    </div>
+
+    <script src="../static/js/jquery-1.12.4.min.js"></script>
+    <script src="../static/js/jquery.date_input.pack.js"></script>
+    <script src="../static/js/echarts.js"></script>
+    <script src="../static/js/laihuoAndchandi.js"></script>
+    <script>
+
+    </script>
+</body>
+</html>

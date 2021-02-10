@@ -216,6 +216,11 @@ var employee_information = function (name, idNo) {
 
 
 // 查询罚单
+/**
+ * 
+ * @param {string} name 搜索的商户名字
+ * @param {string} idNo 搜索的商户档位号
+*/
 var penal = function (name, idNo) {
   $(function () {
     $.ajax({

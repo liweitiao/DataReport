@@ -120,7 +120,6 @@ var wuyeFn = function () {
 
 
  var Fn01 = function (dataWuye) {
-        //绘制每日来货车辆数 id=IC
         var Title = nowYear + ' 年 ' + nowMonth + ' 月 ' + nowDate + ' 日蔬菜部物业档位租赁对比（间）';
         var Data = [[],[]];
         for (var i=0; i<dataWuye.length-1; i++) {

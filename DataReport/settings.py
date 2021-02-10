@@ -85,8 +85,15 @@ DATABASES = {
         'NAME': '10.0.50.5:1521/hgeb',
         'USER': 'ap88',
         'PASSWORD': 'ap88'
+    },
+    'price': {
+        'ENGINE': 'django.db.backends.oracle',
+        'NAME': '10.1.32.7:1521/HGBS',
+        'USER': 'dbc',
+        'PASSWORD': 'dbc',
     }
 }
+DATABASE_ROUTERS = ['DataReport.database_router.DatabaseAppsRouter']
 
 
 # Password validation

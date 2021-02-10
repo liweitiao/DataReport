@@ -7,11 +7,145 @@ import xlrd
 
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.db import connections
-from django.http import JsonResponse
 from django.db import connection
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from DataReport import settings
 import os.path
+
+# ---------------------------蔬菜供应----------------------------------
+def report15(request):
+    return  render(request, 'report15.html')
+
+def report16(request):
+    return  render(request, 'report16.html')
+# ------------------------------蔬菜供应-------------------------------
+
+# -------------------蔬菜部供应统计0116开发-------------------
+def contrast(request):
+    year = int(request.GET.get('year'))
+    month = int(request.GET.get('month'))
+    day = int(request.GET.get('day'))
+    print('year-month-day', year, month, day)
+    # 拼接本年开始和结束的时间
+    currentStartTimeStr, currentEndTimeStr = contrastTimeStr(year, month, day)
+    # 查询本年的数据
+    currentYearData = queryContrastData(currentStartTimeStr, currentEndTimeStr)
+    # 拼接去年开始和结束的时间
+    lastStartTimeStr, lastEndTimeStr = contrastTimeStr(year-1, month, day)
+    # 查询去年的数据
+    lastYearData = queryContrastData(lastStartTimeStr, lastEndTimeStr)
+
+    return JsonResponse([lastYearData, currentYearData], safe=False)
+
+def contrastTimeStr(year, month, day):
+    endTimeStr = "'%s-%s-%s 23:59:59', 'YYYY-MM-DD HH24:mi:ss'" % (str(year), str(month), str(day))
+    nowStr = '%s-%s-%s'%(str(year), str(month), str(day))
+    y = datetime.datetime.strptime(nowStr, '%Y-%m-%d')
+    startTime = y - datetime.timedelta(days=20)
+    startTimeStr = "'%s', 'YYYY-MM-DD HH24:mi:ss' "%str(startTime)
+    return [startTimeStr, endTimeStr]
+
+def queryContrastData(startTimeStr, endTimeStr):
+    # 建立游标对象
+    cursor = connection.cursor()
+    # 拼接查询海吉星蔬菜来货总量对比数据的sql语句
+    sqlStr = '''select
+                    "SUBSTR"("TO_CHAR"(v.GROSSTIME, 'YYYY-MM-DD HH24:mi:ss'),0,10),
+                    "ROUND"("SUM"(v.NETWEIGHT)/1000, 0)
+                from V_REPPONDER_PRODUCT_V2 v
+                where v.GROSSTIME BETWEEN "TO_DATE"(%s) AND "TO_DATE"(%s)
+                GROUP BY "SUBSTR"("TO_CHAR"(v.GROSSTIME, 'YYYY-MM-DD HH24:mi:ss'),0,10)
+                ORDER BY "SUBSTR"("TO_CHAR"(v.GROSSTIME, 'YYYY-MM-DD HH24:mi:ss'),0,10)'''%(startTimeStr, endTimeStr)
+    # 游标对象执行sql语句
+    cursor.execute(sqlStr)
+    # 取到游标对象里面的执行结果
+    result = cursor.fetchall()
+    resArray = []
+    # 将结果转换为数组
+    for item in result:
+        # 将各项数据转换为数组再插入到结果集中
+        resArray.append(list(item))
+    return resArray
+
+def source(request):
+    year = int(request.GET.get('year'))
+    month = int(request.GET.get('month'))
+    day = int(request.GET.get('day'))
+    # 拼接今天的时间
+    currentDayQueryStr, nextDayQueryStr = queryTimeStr02(year, month, day)
+    currentDaySourceData = querySourceData(currentDayQueryStr, nextDayQueryStr)
+    # 拼接昨天的时间
+    lastDayQueryStr, nextOfLastDayQueryStr = queryTimeStr03(year, month, day)
+    lastDaySourceData = querySourceData(lastDayQueryStr, nextOfLastDayQueryStr)
+    # 需要返回前端的时间字符串
+    dayArr = [lastDayQueryStr[6:11]]
+    return JsonResponse([currentDaySourceData, lastDaySourceData, dayArr], safe=False)
+
+
+def querySourceData(currentQueryStr, nextQueryStr):
+    # 建立游标对象
+    cursor = connection.cursor()
+    # 拼接查询海吉星蔬菜来源地的sql语句
+    sqlStr = '''select 
+                    "SUBSTR"(v.PROVINCECITYNAME,0,2),
+                    "ROUND"("SUM"(v.NETWEIGHT)/1000, 0)
+                from V_REPPONDER_PRODUCT_V2 v
+                where v.GROSSTIME BETWEEN "TO_DATE"(%s) AND "TO_DATE"(%s)
+                GROUP BY "SUBSTR"(v.PROVINCECITYNAME,0,2)
+                ORDER BY "SUM"(v.NETWEIGHT) desc'''%(currentQueryStr, nextQueryStr)
+    # 游标对象执行sql语句
+    cursor.execute(sqlStr)
+    # 取到游标对象里面的执行结果
+    result = cursor.fetchall()
+    resArray = []
+    # 将结果转换为数组
+    for item in result:
+        # 将各项数据转换为数组再插入到结果集中
+        resArray.append(list(item))
+    return resArray
+
+
+
+
+
+
+
+
+
+
+
+def conn(request):
+    data = connect()
+    return JsonResponse(data, safe=False)
+
+
+def connect():
+    cursor = connections['price'].cursor()
+    sqlStr = '''SELECT
+                 t.ORIGIN_NAME, t.CREATE_DATE, t.CATEGORY_ID, t.CATEGORY_NAME, t.AVG_PRICE
+                from T_PRICE_COLLECTION_202012 t
+                where 1=1
+                and CREATE_DATE BETWEEN "TO_DATE"('2020-12-14 00:00:00', 'YYYY-MM-DD HH24:mi:ss') AND "TO_DATE"('2020-12-15 00:00:00', 'YYYY-MM-DD HH24:mi:ss')
+                and t.CATEGORY_NAME in ('大白菜','白萝卜','油麦菜','上海青','奶白菜','娃娃菜','尖椒','菠菜','生菜','包菜','莴笋','西红柿','青瓜','红萝卜','圆椒','苦瓜','茄瓜','豇豆','菜心','芥兰')
+                ;'''
+    cursor.execute(sqlStr)
+    # 取到游标对象里面的执行结果
+    result = cursor.fetchall()
+    resArray = []
+    # 将结果转换为数组
+    for item in result:
+        # 将各项数据转换为数组再插入到结果集中
+        item = list(item)
+        resArray.append(item)
+
+    print('DoD++++++++++', resArray)
+    return resArray
+
+
+
+
+# -------------------蔬菜部供应统计0116开发-------------------
 
 def file_extension(path):
   return os.path.splitext(path)[1]
@@ -28,20 +162,8 @@ def jsonp(request):
 # ----------------jsonp----------------------
 
 def exer(request):
-    # response = HttpResponse()
-    # # 允许你的域名来获取我的数据
-    # response['Access-Control-Allow-Origin'] = "*"
-    # #
-    # # # 允许你携带Content-Type请求头
-    # # # 允许自定义前端可以添加请求头 token 字段
-    # response['Access-Control-Allow-Headers'] = "Content-Type,token"
-    # #
-    # # # 允许你发送DELETE,PUT
-    # response['Access-Control-Allow-Methods'] = "DELETE,PUT,GET"
     data = {'a':1, 'b':2}
-    # # print(response)
-    return JsonResponse(data, safe=False)
-    # return  render(request, 'exer.html')
+    return  render(request, 'exer.html')
 
 def tenant(request):
     return render(request, 'tenant.html')
@@ -52,7 +174,6 @@ def report11(request):
 def baobiao11(request):
     data = []
     for i in range(111, 130):
-        # for j in range(0, len(currentDayData[i])):
         map = {"shop_id": i,
                "name": i,
                "idno": i,
@@ -3048,7 +3169,6 @@ def queryTimeStr03(year, month, day):
     todayToDate = datetime.datetime.strptime(todayStr, '%Y-%m-%d')
     yesterdayStr = todayToDate + datetime.timedelta(days=-1)
     lastDayQueryStr = "'%s', 'YYYY-MM-DD HH24:mi:ss'" % (yesterdayStr)
-    print(lastDayQueryStr, currentDayQueryStr)
     return [lastDayQueryStr, currentDayQueryStr]
 
 

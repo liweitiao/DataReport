@@ -7,19 +7,25 @@
         var date = new Date();
         nowMonth = date.getMonth();
         nowYear = date.getFullYear();
-        // console.log(nowYear, nowMonth);
-
-
+        if (nowMonth === 0) {
+                nowMonth = 12
+                nowYear -= 1
+           }
 
         // {# 日历时间选择器 #}
         $(function(){
             date = new Date();
             console.log(date);
             month = date.getMonth();
+
             year = date.getFullYear();
-            // day = date.getDate();
+            if (month === 0) {
+                month = 12
+                year -= 1
+            }
+             day = date.getDate();
             dateStr = year + '-' + month;
-            // console.log(month, year, day, dateStr);
+             console.log(month, year, day, dateStr);
             $('.date_picker').val(dateStr);
             $('.date_picker').date_input();
             $('.show').click(function () {

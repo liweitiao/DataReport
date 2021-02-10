@@ -1,0 +1,48 @@
+h1 {
+  margin: 20px 0 20px 500px;
+}
+#count {
+  width: 800px;
+  height: 800px;
+}
+
+#qushi {
+  width: 800px;
+  height: 400px;
+}
+
+#contrast {
+  width: 1400px;
+  height: 400px;
+}
+
+#trend {
+  width: 1400px;
+  height: 400px;
+}
+
+.dateDiv {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  margin-left: 500px;
+  width:500px;
+}
+
+.date_picker {
+  width:226px;
+  background: #fefefe;
+  border: 1px solid #bbb;
+  font-size: 14px;
+  color: #333;
+  padding: 7px;
+  border-radius: 3px;
+}
+
+.show {
+  width: 100px;
+  height: 30px;
+}
+
+.show:hover {
+  cursor: pointer;
+}

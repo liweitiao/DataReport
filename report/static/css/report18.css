@@ -2,16 +2,16 @@ h1 {
   margin: 20px 0 20px 500px;
 }
 
-#source01 {
+#sales_destination {
   width: 800px;
   height: 600px;
   margin-left: 300px;
 }
 
-#source02 {
-  width: 1200px;
+#type_compare {
+  width: 800px;
   height: 400px;
-  margin-left: 100px;
+  margin-left: 300px;
 }
 
 .dateDiv {

@@ -1,6 +1,6 @@
 var nowMonth, nowYear;
 var date = new Date();
-nowMonth = date.getMonth();
+nowMonth = date.getMonth() + 1;
 nowYear = date.getFullYear();
 nowDay = date.getDate() - 1;
 
@@ -8,7 +8,7 @@ nowDay = date.getDate() - 1;
 // {# 日历时间选择器 #}
 $(function(){
     date = new Date();
-    month = date.getMonth();
+    month = date.getMonth() + 1;
     year = date.getFullYear();
     day = date.getDate() - 1;
     dateStr = year + '-' + month + '-' + day;
@@ -20,7 +20,7 @@ $(function(){
         nowYear = dateArr[0];
         nowMonth = dateArr[1];
         nowDay = dateArr[2];
-        console.log('value---------', value)
+
         contrast()
     })
 });
@@ -38,13 +38,11 @@ var contrast = function () {
             timeout: 100000,
             data: {year:nowYear, month:nowMonth, day:nowDay},
             success: function (data) {
-                console.log(data)
                 for (let i = 0; i < data[1].length; i++) {
                     dateArr.push(data[1][i][0].slice(5, 10))
                     currentYearData.push(data[1][i][1])
                     lastYearData.push(data[0][i][1])
                 }
-                console.log(dateArr, currentYearData, lastYearData)
                 var myChart = echarts.init(document.getElementById('contrast'));
                 var option = {
                         title: {
@@ -62,16 +60,9 @@ var contrast = function () {
                         　　}
                         },
                         tooltip: {},
-                         //菜单
                         legend : {
-                            //菜单字体样式
-                            // textStyle : {
-                            //     color : 'white'
-                            // },
-                            //菜单位置
                             x : 'right',
-                            //菜单数据
-                            data : ['2019年', '2020年']
+                            data : [(nowYear - 1) + '年', nowYear + '年']
                         },
                         xAxis: {
                             name: '日期',
@@ -81,7 +72,7 @@ var contrast = function () {
                         series: [
                             {
                                 type: 'bar',
-                                name: '2019年',
+                                name: (nowYear - 1) + '年',
                                 barWidth: 15,
                                 data: lastYearData,
                                 itemStyle: {
@@ -95,7 +86,7 @@ var contrast = function () {
                             },
                             {
                                 type: 'bar',
-                                name: '2020年',
+                                name: nowYear + '年',
                                 barWidth: 15,
                                 data: currentYearData,
                                 itemStyle: {
@@ -124,70 +115,63 @@ contrast()
 var trend = function (dateArr, currentYearData, lastYearData) {
     var Title = '蔬菜每日来货趋势';
     var myChart = echarts.init(document.getElementById('trend'));
-                var option = {
-                        title: {
-                            text: Title,
-                            left:'center'
-                        },
-                        toolbox: {
-                        　　show: true,
-                        　　feature: {
-                        　　　　saveAsImage: {
-                        　　　　show:true,
-                        　　　　excludeComponents :['toolbox'],
-                        　　　　pixelRatio: 2
-                        　　　　}
-                        　　}
-                        },
-                        tooltip: {},
-                         //菜单
-                        legend : {
-                            //菜单字体样式
-                            // textStyle : {
-                            //     color : 'white'
-                            // },
-                            //菜单位置
-                            x : 'right',
-                            //菜单数据
-                            data : ['2019年', '2020年']
-                        },
-                        xAxis: {
-                            name: '日期',
-                            data: dateArr
-                        },
-                        yAxis: {name: '吨'},
-                        series: [
-                            {
-                                type: 'line',
-                                name: '2019年',
-                                barWidth: 15,
-                                data: lastYearData,
-                                itemStyle: {
-                                    normal: {
-                                        label: {
-                                        show: true,
-                                        position: 'top'
-                                        }
-                                    }
-                                }
-                            },
-                            {
-                                type: 'line',
-                                name: '2020年',
-                                barWidth: 15,
-                                data: currentYearData,
-                                itemStyle: {
-                                    normal: {
-                                        label: {
-                                        show: true,
-                                        position: 'top'
-                                        }
-                                    }
-                                }
+    var option = {
+            title: {
+                text: Title,
+                left:'center'
+            },
+            toolbox: {
+            　　show: true,
+            　　feature: {
+            　　　　saveAsImage: {
+            　　　　show:true,
+            　　　　excludeComponents :['toolbox'],
+            　　　　pixelRatio: 2
+            　　　　}
+            　　}
+            },
+            tooltip: {},
+            legend : {
+                x : 'right',
+                data : [(nowYear - 1) + '年', nowYear + '年']
+            },
+            xAxis: {
+                name: '日期',
+                data: dateArr
+            },
+            yAxis: {name: '吨'},
+            series: [
+                {
+                    type: 'line',
+                    name: (nowYear - 1) + '年',
+                    barWidth: 15,
+                    data: lastYearData,
+                    itemStyle: {
+                        normal: {
+                            label: {
+                            show: true,
+                            position: 'top'
                             }
-                        ]
-                    };
-            
-                // 使用刚指定的配置项和数据显示图表。
-                myChart.setOption(option);
+                        }
+                    }
+                },
+                {
+                    type: 'line',
+                    name: nowYear + '年',
+                    barWidth: 15,
+                    data: currentYearData,
+                    itemStyle: {
+                        normal: {
+                            label: {
+                            show: true,
+                            position: 'top'
+                            }
+                        }
+                    }
+                }
+            ]
+        };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
 }

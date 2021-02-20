@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>蔬菜品种价格统计</title>
+  <link rel="stylesheet" href="../static/css/report17.css">
+  <link rel="stylesheet" href="../static/css/calender.css">
+</head>
+<body>
+  <h1>深圳海吉星蔬菜品种价格统计</h1>
+  {# 日历时间选择器 #}
+    <div class="dateDiv">
+        <h3>选择报表的日期</h3>
+        <input type="text" class="date_picker">
+        <button class="show">点击显示报表</button>
+    </div>
+
+  {#折线图#}
+  <div id="price_trend">
+  </div>
+
+  {#折线图#}
+  <div id="table">
+      <div class="div-inline"></div>
+      <a class="download"><button class="js-download but-search">导出表格</button></a>
+
+      <table>
+          <thead>
+              <tr  class="sec js-head">
+                  <th class="type">品种</th>
+                  <th class="chandi">产地</th>
+                  <th class="js-time1"></th>
+                  <th class="js-time2"></th>
+                  <th>环比</th>
+              </tr>
+          </thead>
+      </table>
+  </div>
+  </div>
+
+  <script src="../static/js/jquery-1.12.4.min.js"></script>
+  <script src="../static/js/jquery.date_input.pack01.js"></script>
+  <script src="../static/js/echarts.js"></script>
+  <script src="../static/js/report17.js"></script>
+</body>
+
+</html>

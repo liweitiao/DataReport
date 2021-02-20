@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>蔬菜报表</title>
+  <link rel="stylesheet" href="../static/css/report20.css">
+</head>
+<body>
+
+<div class="flex_div">
+
+    <h1>深圳海吉星蔬菜供应统计</h1>
+
+  
+
+  <h2>一、深圳海吉星蔬菜来货总量对比</h2>
+  <div id="contrast"> 
+  </div>
+
+  <div id="trend"> 
+  </div>
+
+  <div id="type_compare">
+  </div>
+  <div class="type_compare_analysis"></div>
+
+
+  <h2>二、深圳海吉星蔬菜来源地分析</h2>
+  <div id="source01"></div>
+  <div id="source02"></div>
+
+  <h2>三、部分蔬菜品种价格统计</h2>
+  <div id="price_trend">
+  </div>
+  
+  {#折线图#}
+  <div id="table">
+      <div class="div-inline"></div>
+      <a class="download_price_table"><button class="js-download but-search">导出表格</button></a>
+
+      <table>
+          <thead>
+              <tr  class="sec js-price-head">
+                  <th class="type">品种</th>
+                  <th class="chandi">产地</th>
+                  <th class="js-time1"></th>
+                  <th class="js-time2"></th>
+                  <th>环比</th>
+              </tr>
+          </thead>
+      </table>
+  </div>
+
+  <h2>四、深圳海吉星蔬菜销售去向分析</h2>
+  <div id="sales_destination"></div>
+
+  <h2>五、深圳海吉星市场蔬菜前20名客户供应情况</h2>
+  <div>
+      <div class="div-inline"></div>
+      <a class="download_supply_table"><button class="js-download but-search">导出表格</button></a>
+
+      <table>
+          <thead>
+              <tr  class="sec js-supply-head">
+                  <th>序号</th>
+
+                  <th>档位号</th>
+
+                  <th>商户姓名</th>
+
+                  <th>来货量(吨)</th>
+
+                  <th>占比</th>
+              </tr>
+          </thead>
+      </table>
+  </div>
+</div>
+  <script src="../static/js/jquery-1.12.4.min.js"></script>
+  <script src="../static/js/jquery.date_input.pack01.js"></script>
+  <script src="../static/js/echarts.js"></script>
+  <script src="../static/js/report20.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+h1 {
+  margin-top: 20px;
+  margin-left: 500px;
+}
+
+.dateDiv {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  margin-left: 500px;
+  width:500px;
+}
+
+.date_picker {
+  width:226px;
+  background: #fefefe;
+  border: 1px solid #bbb;
+  font-size: 14px;
+  color: #333;
+  padding: 7px;
+  border-radius: 3px;
+}
+
+.show {
+  width: 100px;
+  height: 30px;
+}
+
+.show:hover {
+  cursor: pointer;
+}
+
+.download_supply_table {
+  margin-left: 1100px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+table {
+  margin-left: 160px;
+  margin-bottom: 40px;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid #c0c0c0;
+}
+
+th,
+td {
+  border: 1px solid #d0d0d0;
+  color: #404060;
+  padding: 8px 2px;
+}
+
+th {
+  background-color: #c6d282;
+  color: #fff;
+  height: 22px;
+}
+
+td {
+  text-align: center;
+  height: 23px;
+  width: 200px;
+}
+
+.sec {
+  background-color: #dad782;
+  color: #fefefe;
+  height: 18px;
+}
+
+.sec td{
+  color: #fff;
+  font-weight: bold;
+  height: 18px;
+}
+
+tbody tr {
+  background-color: #fbfbfb;
+}

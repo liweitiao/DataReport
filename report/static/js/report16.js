@@ -1,6 +1,6 @@
 var nowMonth, nowYear;
 var date = new Date();
-nowMonth = date.getMonth();
+nowMonth = date.getMonth() + 1;
 nowYear = date.getFullYear();
 nowDay = date.getDate() - 1;
 
@@ -8,7 +8,7 @@ nowDay = date.getDate() - 1;
 // {# 日历时间选择器 #}
 $(function(){
     date = new Date();
-    month = date.getMonth();
+    month = date.getMonth() + 1;
     year = date.getFullYear();
     day = date.getDate() - 1;
     dateStr = year + '-' + month + '-' + day;
@@ -20,7 +20,6 @@ $(function(){
         nowYear = dateArr[0];
         nowMonth = dateArr[1];
         nowDay = dateArr[2];
-        console.log('value---------', value)
         source01()
     })
 });
@@ -48,7 +47,7 @@ var source01 = function () {
             timeout: 100000,
             data: {year:nowYear, month:nowMonth, day:nowDay},
             success: function (data) {
-                console.log(data)
+                // console.log(data)
                 for (let i = 0; i < data[0].length; i++) {
                     currentSourceArrTemp.push(data[0][i][0])
                 }
@@ -77,33 +76,32 @@ var source01 = function () {
                   }
                 })
 
-                // console.log('排序之前', currentDayData, lastDayData)
-
-                // 根据来源地进行排序
-                currentDayDataTemp.sort((a, b) => {
-                  return a[0].localeCompare(b[0])
-                })
-
-                lastDayDataTemp.sort((a, b) => {
-                  return a[0].localeCompare(b[0])
-                })
-
                 // console.log('排序之后', currentDayData, lastDayData)
                 for (let i = 0; i < currentDayDataTemp.length; i++) {
                   currentSourceArr.push(currentDayDataTemp[i][0])
                   currentDayData.push(currentDayDataTemp[i][1])
-                  lastDayData.push(lastDayDataTemp[i][1])
+
+                  // 根据currentDayData的顺序收集lastDayData
+                  for (let j = 0; j < lastDayDataTemp.length; j++) {
+                    if (currentDayDataTemp[i][0] == lastDayDataTemp[j][0]) {
+                        lastDayData.push(lastDayDataTemp[j][1])
+                        break
+                    }
+                  }
                   dataToPie.push({"name": currentDayDataTemp[i][0], "value": currentDayDataTemp[i][1]})
                 }
 
+                // 对饼图的数据进行排序
+                dataToPie.sort((a, b) => {
+                    return b["value"] - a["value"]
+                })
                 // 格式化返回回来的时间data[2][0]
                 data[2][0].split('-').forEach( item => {
                   lastDayArr.push(parseInt(item))
                 })
-                console.log(lastDayArr)
                 dayArr.push(lastDayArr[0] + '月' + lastDayArr[1] + '日')
                 dayArr.push(nowMonth + '月' + nowDay + '日')
-                console.log(dayArr)
+                // console.log('dataToPie', dataToPie)
 
                 source02(source01Title, dataToPie)
 
@@ -176,6 +174,7 @@ var source01 = function () {
 source01()
 
 var source02 = function (source01Title, source02Data) {
+    // console.log('source02', source02Data)
   // 绘制图表id=cheliang。
   echarts.init(document.getElementById('source01')).setOption({
   title: {
@@ -199,7 +198,7 @@ var source02 = function (source01Title, source02Data) {
       data: source02Data,
       label: {
           normal: {
-              formatter: '{b}:{c}:({d}%)'
+              formatter: '{b} {d}%'
           }
       }
   }

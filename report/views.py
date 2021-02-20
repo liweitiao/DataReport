@@ -19,9 +19,318 @@ def report15(request):
 
 def report16(request):
     return  render(request, 'report16.html')
+
+def report17(request):
+    return  render(request, 'report17.html')
+
+def report18(request):
+    return  render(request, 'report18.html')
+
+def report19(request):
+    return  render(request, 'report19.html')
+
+def report20(request):
+    return  render(request, 'report20.html')
 # ------------------------------蔬菜供应-------------------------------
 
 # -------------------蔬菜部供应统计0116开发-------------------
+def baobiao19_supply(request):
+    year = int(request.GET.get('year'))
+    month = int(request.GET.get('month'))
+    day = int(request.GET.get('day'))
+    timeStr = '%d-%d-%d'%(year, month, day)
+    startTime = timeStr + ' 00:00:00'
+    endTime = timeStr + ' 23:59:59'
+    # 查询每日来货总量
+    sum = querySupplySum(startTime, endTime)
+    # print(year, month, day, startTime, endTime)
+    # 查询来货数据
+    data02 = queryBaobiao19_supply_data(startTime, endTime)
+    # print('data02',data02)
+    sum20 = 0
+    for item in data02:
+        # 查询档位号
+        shopId = queryBaobiao19_shopId(startTime, endTime, item[0])
+        item.insert(0, shopId)
+        sum20 += item[2]
+        DoD = "%.1f%%"%((item[2] / sum) * 100)
+        item.append(DoD)
+
+    # 处理合计数据
+    sumDoD = "%.1f%%"%((sum20 / sum) * 100)
+    data02.append([sum20, sumDoD])
+    # print('--------02', data02)
+    # data = [
+    #     ['B2435', 'lisi', 41, '4%'],
+    #     ['B2435', 'lisi', 42, '4%'],
+    #     ['B2435', 'lisi', 43, '4%'],
+    #     ['B2435', 'lisi', 44, '4%'],
+    #     ['B2435', 'lisi', 45, '4%'],
+    #     ['B2435', 'lisi', 46, '4%'],
+    #     [2435, '20%']
+    # ]
+
+    return JsonResponse(data02, safe=False)
+
+def queryBaobiao19_shopId(startTime, endTime, name):
+    # 建立游标对象
+    cursor = connection.cursor()
+    # 拼接查询海吉星蔬菜来货总量对比数据的sql语句
+    sqlStr = ''' SELECT
+                    *
+                from
+                (
+                    SELECT
+                    v.doorway
+                    from V_REPPONDER_PRODUCT_V2 v
+                    where v.GROSSTIME BETWEEN "TO_DATE"('%s', 'YYYY-MM-DD HH24:mi:ss') AND "TO_DATE"('%s', 'YYYY-MM-DD HH24:mi:ss')
+                    and v.CUSTOMERNAME = '%s'
+                    and v.doorway is NOT NULL
+                )
+                where ROWNUM = 1''' % (startTime, endTime, name)
+    # 游标对象执行sql语句
+    cursor.execute(sqlStr)
+    # 取到游标对象里面的执行结果
+    result = cursor.fetchall()
+    print('result----',result)
+    res = result[0][0]
+
+    return res
+
+
+def queryBaobiao19_supply_data(startTime, endTime):
+    # 建立游标对象
+    cursor = connection.cursor()
+    # 拼接查询海吉星蔬菜来货总量对比数据的sql语句
+    sqlStr = '''SELECT
+                    *
+                from 
+                (
+                    SELECT
+                    v.CUSTOMERNAME, "ROUND"("SUM"(v.netweight)/1000, 0)
+                    from V_REPPONDER_PRODUCT_V2 v
+                    where  v.GROSSTIME BETWEEN "TO_DATE"('%s', 'YYYY-MM-DD HH24:mi:ss') AND "TO_DATE"('%s', 'YYYY-MM-DD HH24:mi:ss')
+                    and v.BI_GOODSSORTOID = 14
+                    GROUP BY v.CUSTOMERNAME
+                    ORDER BY "SUM"(v.netweight) desc
+                )
+                where ROWNUM <=20'''%(startTime, endTime)
+    # 游标对象执行sql语句
+    cursor.execute(sqlStr)
+    # 取到游标对象里面的执行结果
+    result = cursor.fetchall()
+    resArray = []
+    # 将结果转换为数组
+    for item in result:
+        # 将各项数据转换为数组再插入到结果集中
+        resArray.append(list(item))
+    return resArray
+
+def querySupplySum(startTime, endTime):
+    # 建立游标对象
+    cursor = connection.cursor()
+    # 拼接查询海吉星蔬菜来货总量对比数据的sql语句
+    sqlStr = ''' SELECT
+                    "ROUND"("SUM"(v.netweight)/1000, 0)
+                from V_REPPONDER_PRODUCT_V2 v
+                where  v.GROSSTIME BETWEEN "TO_DATE"('%s', 'YYYY-MM-DD HH24:mi:ss') AND "TO_DATE"('%s', 'YYYY-MM-DD HH24:mi:ss')
+                and v.BI_GOODSSORTOID = 14''' % (startTime, endTime)
+    # 游标对象执行sql语句
+    cursor.execute(sqlStr)
+    # 取到游标对象里面的执行结果
+    result = cursor.fetchall()
+    res = result[0][0]
+
+    return res
+
+
+
+
+def baobiao18_source(request):
+    year = int(request.GET.get('year'))
+    month = int(request.GET.get('month'))
+    day = int(request.GET.get('day'))
+    currentTime, lastTime = handleTime(year, month, day)
+    currentTime += ' 23:59:59'
+    lastTime += ' 00:00:00'
+    print(currentTime, lastTime)
+    data = query_baobiao18_data(lastTime, currentTime)
+    return JsonResponse(data, safe=False)
+
+def query_baobiao18_data(lastTime, currentTime):
+    # 建立游标对象
+    cursor = connection.cursor()
+    # 拼接查询海吉星蔬菜来货总量对比数据的sql语句
+    sqlStr = ''' SELECT
+                    "SUBSTR"("TO_CHAR"(v.GROSSTIME, 'YYYY-MM-DD HH24:mi:ss'),0,10) 日期,
+                    "ROUND"("SUM"(case when v.productname_xx not in ('大蒜','甘薯','胡萝卜','淮山','姜','莲藕','萝卜','土豆','竹笋','红薯','番薯','F-19红薯','马蹄','芋头','山药','生姜','白萝卜','荸荠','淮山药','冬笋','沙葛','沙姜','老姜','粉葛','黑薯','鲁薯','红萝卜','葱姜蒜','洋葱','济薯25红薯','毛芋头','笋子','紫薯') then v.netweight else 0 end)/1000, 0) 鲜菜类,
+                    "ROUND"("SUM"(case when v.productname_xx in ('大蒜','甘薯','胡萝卜','淮山','姜','莲藕','萝卜','土豆','竹笋','红薯','番薯','F-19红薯','马蹄','芋头','山药','生姜','白萝卜','荸荠','淮山药','冬笋','沙葛','沙姜','老姜','粉葛','黑薯','鲁薯','红萝卜','葱姜蒜','洋葱','济薯25红薯','毛芋头','笋子','紫薯') then v.netweight else 0 end)/1000, 0) 硬口菜
+                from V_REPPONDER_PRODUCT_V2 v
+                where  v.GROSSTIME BETWEEN "TO_DATE"('%s', 'YYYY-MM-DD HH24:mi:ss') AND "TO_DATE"('%s', 'YYYY-MM-DD HH24:mi:ss')
+                and v.BI_goodssortna like '%%蔬菜%%'
+                GROUP BY "SUBSTR"("TO_CHAR"(v.GROSSTIME, 'YYYY-MM-DD HH24:mi:ss'),0,10)
+                ORDER BY "SUBSTR"("TO_CHAR"(v.GROSSTIME, 'YYYY-MM-DD HH24:mi:ss'),0,10);''' % (lastTime, currentTime)
+    print(sqlStr)
+    # 游标对象执行sql语句
+    cursor.execute(sqlStr)
+    # 取到游标对象里面的执行结果
+    result = cursor.fetchall()
+    resArray = []
+    # 将结果转换为数组
+    for item in result:
+        # 将各项数据转换为数组再插入到结果集中
+        resArray.append(list(item))
+    return resArray
+
+
+
+def average_price(request):
+    year = int(request.GET.get('year'))
+    month = int(request.GET.get('month'))
+    day = int(request.GET.get('day'))
+    # 拼接本日的时间
+    currentDayQueryStr, nextDayQueryStr = queryTimeStr02(year, month, day)
+    # 拼接昨天的时间
+    lastDayQueryStr, nextOfLastDayQueryStr = queryTimeStr03(year, month, day)
+
+    # 处理需要返回前端的时间字符串
+    currentTime, lastTime = handleTime(year, month, day)
+    # 拼接本月的表名
+    if (month < 10):
+        monthStr = '0' + str(month)
+    else:
+        monthStr = str(month)
+    currentTableName = 'T_PRICE_COLLECTION_' + str(year) + monthStr
+    # print('currentTabelName', currentTableName)
+
+    # 拼接上月的表名
+    if (month == 1):
+        lastMonth = 12
+        lastYear = year - 1
+        monthStr = str(lastMonth)
+    elif (month - 1 < 10):
+        monthStr = '0' + str(month - 1)
+        lastYear = year
+    else:
+        monthStr = str(month - 1)
+        lastYear = year
+
+    lastTableName = 'T_PRICE_COLLECTION_' + str(lastYear) + monthStr
+    # 查询蔬菜单品均价的数据
+    data = queryAverage_price_data(currentTableName, lastTableName)
+
+
+    # 查询蔬菜今日的数据
+    currentDay_data = queryTwoDay_price_data(currentTableName, lastTableName, currentDayQueryStr, nextDayQueryStr)
+    # 查询蔬菜昨日的数据
+    lastDay_data = queryTwoDay_price_data(currentTableName, lastTableName, lastDayQueryStr, nextOfLastDayQueryStr)
+    # 处理今日和昨日的数据
+    data02 = handleData17(currentDay_data, lastDay_data)
+
+    # currentTime = currentDay_data[0][3]
+    # lastTime = lastDay_data[0][3]
+    return JsonResponse([data, data02, currentTime, lastTime], safe=False)
+
+def handleData17(currentDay_data, lastDay_data):
+    res = []
+    for i in lastDay_data:
+        for j in currentDay_data:
+            if i[2] != None and j[2] != None and i[0] == j[0]:
+                i.pop()
+                i.append(j[2])
+                DoD = "%.1f%%" % (((j[2] - i[2]) / i[2]) * 100)
+                i.append(DoD)
+                res.append(i)
+                break
+    currntSum = 0
+    lastSum = 0
+    if len(res) > 0:
+        for item in res:
+            currntSum += item[3]
+            lastSum += item[2]
+        currntAverage = "%.1f"%(currntSum / len(res))
+        lastAverage = "%.1f"%(lastSum / len(res))
+        average_DoD = "%.1f%%"%(((float(currntAverage) - float(lastAverage)) / float(lastAverage)) * 100)
+        res.append([lastAverage, currntAverage, average_DoD])
+    return res
+
+def handleTime(year, month, day):
+    today = '%d-%d-%d'%(year, month, day)
+    current = datetime.datetime.strptime(today, '%Y-%m-%d')
+    currentTime = datetime.datetime.strftime(current, '%Y-%m-%d')
+
+    last = current - datetime.timedelta(days=1)
+    lastTime = datetime.datetime.strftime(last, '%Y-%m-%d')
+    return [currentTime, lastTime]
+
+
+
+def queryTwoDay_price_data(currentTableName, lastTableName, start, end):
+    cursor = connections['price'].cursor()
+    sqlStr = '''SELECT
+                  t.category_name, 
+                  t.origin_name, 
+                  t.avg_price,
+                  "TO_CHAR"(t.CREATE_date, 'YYYY-MM-DD')
+                from 
+                (
+                    SELECT * from %s
+                        UNION
+                    SELECT * from %s
+                ) t
+                where CREATE_DATE BETWEEN "TO_DATE"(%s) AND "TO_DATE"(%s)
+                and t.CATEGORY_NAME in ('大白菜','白萝卜','油麦菜','上海青','奶白菜','娃娃菜','尖椒','菠菜','生菜','包菜','莴笋','西红柿','青瓜','红萝卜','圆椒','苦瓜','茄子','豇豆','菜心','芥兰','豆角','黄瓜','芥蓝','胡萝卜')
+                ORDER BY t.category_name
+                '''%(currentTableName, lastTableName, start, end)
+    cursor.execute(sqlStr)
+    # 取到游标对象里面的执行结果
+    result = cursor.fetchall()
+    resArray = []
+    # 将结果转换为数组
+    for item in result:
+        # 将各项数据转换为数组再插入到结果集中
+        item = list(item)
+        resArray.append(item)
+
+    return resArray
+
+def queryAverage_price_data(currentTableName, lastTableName):
+    cursor = connections['price'].cursor()
+    sqlStr = '''SELECT
+                 "SUBSTR"("TO_CHAR"(v.CREATE_DATE, 'YYYY-MM-DD HH24:mi:ss'),0,10),
+                 "ROUND"("SUM"(v.AVG_PRICE)/"COUNT"(v.CATEGORY_NAME), 1)
+                from 
+                (
+                    SELECT * from %s
+                    UNION
+                    SELECT * from %s
+                ) v
+                WHERE v.AVG_PRICE > 0
+                and v.CATEGORY_NAME in ('大白菜','白萝卜','油麦菜','上海青','奶白菜','娃娃菜','尖椒','菠菜','生菜','包菜','莴笋','西红柿','圆椒','苦瓜','茄子','菜心','豆角','黄瓜','芥蓝','胡萝卜')
+                GROUP BY "SUBSTR"("TO_CHAR"(v.CREATE_DATE, 'YYYY-MM-DD HH24:mi:ss'),0,10)
+                ORDER BY "SUBSTR"("TO_CHAR"(v.CREATE_DATE, 'YYYY-MM-DD HH24:mi:ss'),0,10)'''%(currentTableName, lastTableName)
+    cursor.execute(sqlStr)
+    # 取到游标对象里面的执行结果
+    result = cursor.fetchall()
+    resArray = []
+    # 将结果转换为数组
+    for item in result:
+        # 将各项数据转换为数组再插入到结果集中
+        item = list(item)
+        resArray.append(item)
+
+    return resArray
+
+
+
+def average_price02(request):
+    data = [
+        [3.4,3.5,4.4,3.2,4.1,4.4,4.6,3.8,3.0,3.5,4.2,4.4],
+        ['12-01', '12-02','12-03','12-04','12-05','12-06','12-07','12-08','12-09','12-10','12-11','12-12']
+    ]
+    return JsonResponse(data, safe=False)
+
+
 def contrast(request):
     year = int(request.GET.get('year'))
     month = int(request.GET.get('month'))
@@ -55,8 +364,10 @@ def queryContrastData(startTimeStr, endTimeStr):
                     "ROUND"("SUM"(v.NETWEIGHT)/1000, 0)
                 from V_REPPONDER_PRODUCT_V2 v
                 where v.GROSSTIME BETWEEN "TO_DATE"(%s) AND "TO_DATE"(%s)
+                and v.BI_goodssortna like '%%蔬菜%%'
                 GROUP BY "SUBSTR"("TO_CHAR"(v.GROSSTIME, 'YYYY-MM-DD HH24:mi:ss'),0,10)
                 ORDER BY "SUBSTR"("TO_CHAR"(v.GROSSTIME, 'YYYY-MM-DD HH24:mi:ss'),0,10)'''%(startTimeStr, endTimeStr)
+    print(sqlStr)
     # 游标对象执行sql语句
     cursor.execute(sqlStr)
     # 取到游标对象里面的执行结果
@@ -3565,7 +3876,6 @@ def baobiao08(request):
 
     # 拼接查询的时间字符串
     currentDayQueryStr, nextDayQueryStr = queryTimeStr02(year, month, day)
-    # print(currentDayQueryStr, nextDayQueryStr)
 
     # 查询混装数据
     data_mix = queryData_mix(currentDayQueryStr, nextDayQueryStr)

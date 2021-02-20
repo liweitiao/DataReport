@@ -4,30 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>蔬菜来货总量对比</title>
-  <link rel="stylesheet" href="../static/css/report15.css">
+  <title>来货量对比</title>
+  <link rel="stylesheet" href="../static/css/report18.css">
   <link rel="stylesheet" href="../static/css/calender.css">
 </head>
 <body>
-  <h1>深圳海吉星蔬菜供应统计</h1>
+  <h1>来货量对比及销售去向</h1>
   {# 日历时间选择器 #}
-    <div class="dateDiv">
-        <h3>选择报表的日期</h3>
-        <input type="text" class="date_picker">
-        <button class="show">点击显示报表</button>
-    </div>
-
-
-  <div id="contrast"> 
+  <div class="dateDiv">
+    <h3>选择报表的日期</h3>
+    <input type="text" class="date_picker">
+    <button class="show">点击显示报表</button>
   </div>
 
-  <div id="trend"> 
-  </div>
+
+  <div id="sales_destination"></div>
+
+  <div id="type_compare"></div>
 
   <script src="../static/js/jquery-1.12.4.min.js"></script>
   <script src="../static/js/jquery.date_input.pack01.js"></script>
   <script src="../static/js/echarts.js"></script>
-  <script src="../static/js/report15.js"></script>
+  <script src="../static/js/report18.js"></script>
 </body>
-
 </html>

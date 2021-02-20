@@ -1,0 +1,110 @@
+.flex_div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+}
+
+#contrast {
+  width: 1400px;
+  height: 400px;
+}
+
+#trend {
+  width: 1400px;
+  height: 400px;
+}
+
+#type_compare {
+  width: 800px;
+  height: 400px;
+  margin-left: 300px;
+}
+
+.type_compare_analysis {
+  width: 800px;
+  height: 200px;
+  margin-left: 320px;
+  text-align: left;
+  background: #c6d282;
+}
+
+#source01 {
+  width: 800px;
+  height: 600px;
+  margin-left: 300px;
+}
+
+#source02 {
+  width: 1200px;
+  height: 400px;
+  margin-left: 100px;
+}
+
+#sales_destination {
+  width: 800px;
+  height: 600px;
+  margin-left: 300px;
+}
+
+#price_trend {
+  width: 1200px;
+  height: 300px;
+  margin-left: 60px;
+}
+
+table {
+  margin-left: 160px;
+  margin-bottom: 40px;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid #c0c0c0;
+}
+
+th,
+td {
+  border: 1px solid #d0d0d0;
+  color: #404060;
+  padding: 8px 2px;
+}
+
+th {
+  background-color: #c6d282;
+  color: #fff;
+  height: 22px;
+}
+
+td {
+  text-align: center;
+  height: 23px;
+  width: 200px;
+}
+
+.sec {
+  background-color: #dad782;
+  color: #fefefe;
+  height: 18px;
+}
+
+.sec td{
+  color: #fff;
+  font-weight: bold;
+  height: 18px;
+}
+
+tbody tr {
+  background-color: #fbfbfb;
+}
+
+.download_price_table {
+  margin-left: 900px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.download_supply_table {
+  margin-left: 900px;
+  margin-bottom: 10px;
+  display: inline-block;
+}

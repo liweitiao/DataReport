@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>蔬菜来货总量对比</title>
-  <link rel="stylesheet" href="../static/css/report15.css">
+  <title>前20名供应商</title>
+  <link rel="stylesheet" href="../static/css/report19.css">
   <link rel="stylesheet" href="../static/css/calender.css">
 </head>
 <body>
-  <h1>深圳海吉星蔬菜供应统计</h1>
+  <h1>蔬菜前20名客户供应情况</h1>
   {# 日历时间选择器 #}
     <div class="dateDiv">
         <h3>选择报表的日期</h3>
@@ -17,17 +17,32 @@
         <button class="show">点击显示报表</button>
     </div>
 
+  <div>
+      <div class="div-inline"></div>
+      <a class="download_supply_table"><button class="js-download but-search">导出表格</button></a>
 
-  <div id="contrast"> 
+      <table>
+          <thead>
+              <tr  class="sec js-head">
+                  <th>序号</th>
+
+                  <th>档位号</th>
+
+                  <th>商户姓名</th>
+
+                  <th>来货量(吨)</th>
+
+                  <th>占比</th>
+              </tr>
+          </thead>
+      </table>
   </div>
-
-  <div id="trend"> 
   </div>
 
   <script src="../static/js/jquery-1.12.4.min.js"></script>
   <script src="../static/js/jquery.date_input.pack01.js"></script>
   <script src="../static/js/echarts.js"></script>
-  <script src="../static/js/report15.js"></script>
+  <script src="../static/js/report19.js"></script>
 </body>
 
 </html>

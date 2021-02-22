@@ -11,11 +11,34 @@
 
 <div class="flex_div">
 
-    <h1>深圳海吉星蔬菜供应统计</h1>
+<h1 class="h1_title">深圳海吉星蔬菜供应统计</h1>
+<h3 class="h3_summary">概　述</h3>
+<div class="summary">
+    <!-- 来货总量和各品类对比的文字分析 -->
+  <div class="summary_contrast_type_compare_analysis">
+        <div class="summary_contrast_analysis"></div>
+        <div class="summary_type_compare_analysis"></div>
+    </div>
+
+  <!-- 来源地的文字分析 -->
+  <div class="summary_source_analysis">
+  </div>
+
+    <div>5.蔬菜销售渠道占比如下：商超29%，供港20%，二批市场20%，农贸市场20%，餐饮、饭堂11%。</div>
+
+<!-- 价格的文字分析 -->
+<div class="summary_price_trend_analysis">
+    </div>
+
+<!-- 市场前20名客户来货量的文字分析 -->
+<div class="summary_supply_analysis">
+    </div>
+
+</div>
 
   
 
-  <h2>一、深圳海吉星蔬菜来货总量对比</h2>
+  <h2 class="h2_contrast">一、深圳海吉星蔬菜来货总量对比</h2>
   <div id="contrast"> 
   </div>
 
@@ -24,15 +47,29 @@
 
   <div id="type_compare">
   </div>
-  <div class="type_compare_analysis"></div>
+
+  <!-- 来货总量和各品类对比的文字分析 -->
+  <div class="contrast_type_compare_analysis">
+      <div class="contrast_analysis"></div>
+      <div class="type_compare_analysis"></div>
+  </div>
+  
 
 
-  <h2>二、深圳海吉星蔬菜来源地分析</h2>
+  <h2 class="h2_source">二、深圳海吉星蔬菜来源地分析</h2>
   <div id="source01"></div>
   <div id="source02"></div>
 
-  <h2>三、部分蔬菜品种价格统计</h2>
+  <!-- 来源地的文字分析 -->
+  <div class="source_analysis">
+  </div>
+
+  <h2 class="h2_price_trend">三、部分蔬菜品种价格统计</h2>
   <div id="price_trend">
+  </div>
+
+  <!-- 价格的文字分析 -->
+  <div class="price_trend_analysis">
   </div>
   
   {#折线图#}
@@ -53,10 +90,36 @@
       </table>
   </div>
 
-  <h2>四、深圳海吉星蔬菜销售去向分析</h2>
-  <div id="sales_destination"></div>
+  <h2 class="h2_sales_destination">四、深圳海吉星蔬菜销售去向分析</h2>
+  <div class="sales">
+      <div id="sales_destination"></div>
+      <div id="sales_destination_analysis">蔬菜销售渠道占比如下：商超29%，供港20%，二
+          批市场20%，农贸市场20%，餐饮、饭堂11%。</div>
+  </div>
+  
 
-  <h2>五、深圳海吉星市场蔬菜前20名客户供应情况</h2>
+  <h2 class="h2_stock">五、蔬菜进销存统计</h2>
+  <div class="stock_table">
+      <div class="div-inline"></div>
+      <a class="download_stock_table"><button class="js-download but-search">导出表格</button></a>
+
+      <table>
+          <thead>
+              <tr  class="sec js-stock-head">
+                  <th>日期</th>
+
+                  <th>进货(吨)</th>
+
+                  <th>销售(吨)</th>
+
+                  <th>库存(吨)</th>
+              </tr>
+          </thead>
+      </table>
+  </div>
+
+
+  <h2 class="h2_supply">六、深圳海吉星市场蔬菜前20名客户供应情况</h2>
   <div>
       <div class="div-inline"></div>
       <a class="download_supply_table"><button class="js-download but-search">导出表格</button></a>
@@ -73,6 +136,21 @@
                   <th>来货量(吨)</th>
 
                   <th>占比</th>
+              </tr>
+          </thead>
+      </table>
+  </div>
+
+
+  <h2 class="h2_dynamic_problem">六、深圳海吉星市场蔬菜前20名客户供应情况</h2>
+  <div class="dynamic_table">
+      <div class="div-inline"></div>
+      <table>
+          <thead>
+              <tr  class="sec js-dynamic-head">
+                  <th class="dynamic_table_head">市场动态</th>
+
+                  <th class="dynamic_table_head">存在问题</th>
               </tr>
           </thead>
       </table>

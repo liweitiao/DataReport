@@ -31,9 +31,209 @@ def report19(request):
 
 def report20(request):
     return  render(request, 'report20.html')
+
+def report20_add(request):
+    return  render(request, 'report20_add.html')
+
+def report20_add_dynamic(request):
+    return  render(request, 'report20_add_dynamic.html')
 # ------------------------------蔬菜供应-------------------------------
 
 # -------------------蔬菜部供应统计0116开发-------------------
+def baobiao20_add_dynamic_addDynamic(request):
+    year = int(request.GET.get('year'))
+    month = int(request.GET.get('month'))
+    day = int(request.GET.get('day'))
+    newProblem = request.GET.get('newProblem')
+    newDynamic = request.GET.get('newDynamic')
+    timeStr = '%d-%d-%d 11:11:11' % (year, month, day)
+    # 执行数据update操作, 返回更新影响的行数
+    rowcount = addDynamic(timeStr, newDynamic, newProblem)
+
+    return JsonResponse(rowcount, safe=False)
+
+def addDynamic(timeStr, newDynamic, newProblem):
+    # 建立游标对象
+    cursor = connection.cursor()
+    # 拼接update的sql语句
+    sqlStr = ''' insert into "dynamic_problem" ("itemId", "dynamic", "problem", "create_time")
+                values(dynamic_itemId_Seq.nextval, '%s', '%s', "TO_DATE"('%s', 'YYYY-MM-DD HH24:mi:ss'))''' % (newDynamic, newProblem, timeStr)
+    # 游标对象执行sql语句
+    cursor.execute(sqlStr)
+    # # 取到游标对象里面的执行结果
+    rowcount = cursor.rowcount
+    cursor.execute('commit')
+
+    return rowcount
+
+
+
+
+
+def baobiao20_add_dynamic_updateDynamic(request):
+    year = int(request.GET.get('year'))
+    month = int(request.GET.get('month'))
+    day = int(request.GET.get('day'))
+    item_id = int(request.GET.get('item_id'))
+    newProblem = request.GET.get('newProblem')
+    newDynamic = request.GET.get('newDynamic')
+    timeStr = '%d-%d-%d 11:11:11' % (year, month, day)
+    # 执行数据update操作, 返回更新影响的行数
+    rowcount = updateDynamic(timeStr, item_id , newDynamic, newProblem)
+
+    return JsonResponse(rowcount, safe=False)
+
+def updateDynamic(timeStr, item_id , newDynamic, newProblem):
+    # 建立游标对象
+    cursor = connection.cursor()
+    # 拼接update的sql语句
+    sqlStr = '''update "dynamic_problem"
+                    set "dynamic"='%s', "problem"='%s', "create_time"="TO_DATE"('%s', 'YYYY-MM-DD HH24:mi:ss')
+                where "itemId"=%d;''' % (newDynamic, newProblem, timeStr, item_id)
+    print(sqlStr)
+    # 游标对象执行sql语句
+    cursor.execute(sqlStr)
+    # 取到游标对象里面的执行结果
+    rowcount = cursor.rowcount
+    cursor.execute('commit')
+
+    return rowcount
+
+
+
+
+def baobiao20_add_dynamic_queryDynamic(request):
+    year = int(request.GET.get('year'))
+    month = int(request.GET.get('month'))
+    day = int(request.GET.get('day'))
+    timeStr = '%d-%d-%d' % (year, month, day)
+    startTime = timeStr + ' 00:00:00'
+    endTime = timeStr + ' 23:59:59'
+    # print(startTime, endTime)
+    res = queryDynamic(startTime, endTime)
+
+    return JsonResponse(res, safe=False)
+
+def queryDynamic(startTime, endTime):
+    # 建立游标对象
+    cursor = connection.cursor()
+    # 拼接查询海吉星蔬菜来货总量对比数据的sql语句
+    sqlStr = ''' SELECT
+                    t."itemId", t."dynamic", t."problem"
+                 FROM
+                 "dynamic_problem" t
+                 where t."create_time" between to_date('%s', 'YYYY-MM-DD HH24:mi:ss') and to_date('%s', 'YYYY-MM-DD HH24:mi:ss')
+                 ''' % (startTime, endTime)
+    # 游标对象执行sql语句
+    cursor.execute(sqlStr)
+    # 取到游标对象里面的执行结果
+    result = cursor.fetchall()
+    res = []
+    if len(result) > 0:
+        res.append(result[0][0])
+        res.append(result[0][1])
+        res.append(result[0][2])
+
+    return res
+
+
+def baobiao20_add_addStock(request):
+    year = int(request.GET.get('year'))
+    month = int(request.GET.get('month'))
+    day = int(request.GET.get('day'))
+    newStock = int(request.GET.get('newStock'))
+    print(year, month, day, newStock)
+    timeStr = '%d-%d-%d 11:11:11' % (year, month, day)
+    # 执行数据update操作, 返回更新影响的行数
+    rowcount = addStock(timeStr, newStock)
+
+    return JsonResponse(rowcount, safe=False)
+
+def addStock(timeStr, newStock):
+    # 建立游标对象
+    cursor = connection.cursor()
+    # 拼接update的sql语句
+    sqlStr = ''' insert into vegetable_stock ("itemId", "amount", "create_time")
+                values(stock_itemId_Seq.nextval, %d, "TO_DATE"('%s', 'YYYY-MM-DD HH24:mi:ss'))''' % (newStock, timeStr)
+    # 游标对象执行sql语句
+    cursor.execute(sqlStr)
+    # # 取到游标对象里面的执行结果
+    rowcount = cursor.rowcount
+    cursor.execute('commit')
+
+    return rowcount
+
+
+def baobiao20_add_updateStock(request):
+    year = int(request.GET.get('year'))
+    month = int(request.GET.get('month'))
+    day = int(request.GET.get('day'))
+    item_id = int(request.GET.get('item_id'))
+    newStock = int(request.GET.get('newStock'))
+    print(year, month, day, item_id, newStock)
+    timeStr = '%d-%d-%d 11:11:11' % (year, month, day)
+    # 执行数据update操作, 返回更新影响的行数
+    rowcount = updateStock(timeStr, item_id , newStock)
+
+    return JsonResponse(rowcount, safe=False)
+
+def updateStock(timeStr, item_id , newStock):
+    # 建立游标对象
+    cursor = connection.cursor()
+    # 拼接update的sql语句
+    sqlStr = '''update vegetable_stock
+                    set "amount"=%d, "create_time"="TO_DATE"('%s', 'YYYY-MM-DD HH24:mi:ss')
+                where "itemId"=%d;''' % (newStock, timeStr, item_id)
+    # 游标对象执行sql语句
+    cursor.execute(sqlStr)
+    # 取到游标对象里面的执行结果
+    rowcount = cursor.rowcount
+    cursor.execute('commit')
+
+    return rowcount
+
+
+def baobiao20_add_queryStock(request):
+    year = int(request.GET.get('year'))
+    month = int(request.GET.get('month'))
+    day = int(request.GET.get('day'))
+    timeStr = '%d-%d-%d' % (year, month, day)
+    startTime = timeStr + ' 00:00:00'
+    endTime = timeStr + ' 23:59:59'
+    # print(startTime, endTime)
+    res = queryStock(startTime, endTime)
+    print('res', res)
+
+    return JsonResponse(res, safe=False)
+
+def queryStock(startTime, endTime):
+    # 建立游标对象
+    cursor = connection.cursor()
+    # 拼接查询海吉星蔬菜来货总量对比数据的sql语句
+    sqlStr = ''' SELECT
+                    t."itemId", t."amount"
+                 FROM
+                 vegetable_stock t
+                 where t."create_time" between to_date('%s', 'YYYY-MM-DD HH24:mi:ss') and to_date('%s', 'YYYY-MM-DD HH24:mi:ss')
+                 ''' % (startTime, endTime)
+    # 游标对象执行sql语句
+    cursor.execute(sqlStr)
+    # 取到游标对象里面的执行结果
+    result = cursor.fetchall()
+    print('result----', result)
+    res = []
+    if len(result) > 0:
+        res.append(result[0][0])
+        res.append(result[0][1])
+
+    return res
+
+
+
+
+
+
+
 def baobiao19_supply(request):
     year = int(request.GET.get('year'))
     month = int(request.GET.get('month'))
@@ -59,16 +259,6 @@ def baobiao19_supply(request):
     # 处理合计数据
     sumDoD = "%.1f%%"%((sum20 / sum) * 100)
     data02.append([sum20, sumDoD])
-    # print('--------02', data02)
-    # data = [
-    #     ['B2435', 'lisi', 41, '4%'],
-    #     ['B2435', 'lisi', 42, '4%'],
-    #     ['B2435', 'lisi', 43, '4%'],
-    #     ['B2435', 'lisi', 44, '4%'],
-    #     ['B2435', 'lisi', 45, '4%'],
-    #     ['B2435', 'lisi', 46, '4%'],
-    #     [2435, '20%']
-    # ]
 
     return JsonResponse(data02, safe=False)
 
@@ -165,12 +355,14 @@ def query_baobiao18_data(lastTime, currentTime):
                     "SUBSTR"("TO_CHAR"(v.GROSSTIME, 'YYYY-MM-DD HH24:mi:ss'),0,10) 日期,
                     "ROUND"("SUM"(case when v.productname_xx not in ('大蒜','甘薯','胡萝卜','淮山','姜','莲藕','萝卜','土豆','竹笋','红薯','番薯','F-19红薯','马蹄','芋头','山药','生姜','白萝卜','荸荠','淮山药','冬笋','沙葛','沙姜','老姜','粉葛','黑薯','鲁薯','红萝卜','葱姜蒜','洋葱','济薯25红薯','毛芋头','笋子','紫薯') then v.netweight else 0 end)/1000, 0) 鲜菜类,
                     "ROUND"("SUM"(case when v.productname_xx in ('大蒜','甘薯','胡萝卜','淮山','姜','莲藕','萝卜','土豆','竹笋','红薯','番薯','F-19红薯','马蹄','芋头','山药','生姜','白萝卜','荸荠','淮山药','冬笋','沙葛','沙姜','老姜','粉葛','黑薯','鲁薯','红萝卜','葱姜蒜','洋葱','济薯25红薯','毛芋头','笋子','紫薯') then v.netweight else 0 end)/1000, 0) 硬口菜
-                from V_REPPONDER_PRODUCT_V2 v
+                from V_REPPONDER_PRODUCT_V3 v
                 where  v.GROSSTIME BETWEEN "TO_DATE"('%s', 'YYYY-MM-DD HH24:mi:ss') AND "TO_DATE"('%s', 'YYYY-MM-DD HH24:mi:ss')
-                and v.BI_goodssortna like '%%蔬菜%%'
+                and v.BI_GOODSSORTOID = 14
+                AND (CASE WHEN (v.BILLSTATE_ID = 1) AND (v.BILLSTATE = 1) THEN 1 ELSE 2 END) = 1
                 GROUP BY "SUBSTR"("TO_CHAR"(v.GROSSTIME, 'YYYY-MM-DD HH24:mi:ss'),0,10)
                 ORDER BY "SUBSTR"("TO_CHAR"(v.GROSSTIME, 'YYYY-MM-DD HH24:mi:ss'),0,10);''' % (lastTime, currentTime)
     print(sqlStr)
+    # and v.BI_goodssortna like '%%蔬菜%%'
     # 游标对象执行sql语句
     cursor.execute(sqlStr)
     # 取到游标对象里面的执行结果
@@ -335,7 +527,7 @@ def contrast(request):
     year = int(request.GET.get('year'))
     month = int(request.GET.get('month'))
     day = int(request.GET.get('day'))
-    print('year-month-day', year, month, day)
+    # print('year-month-day', year, month, day)
     # 拼接本年开始和结束的时间
     currentStartTimeStr, currentEndTimeStr = contrastTimeStr(year, month, day)
     # 查询本年的数据
@@ -344,8 +536,35 @@ def contrast(request):
     lastStartTimeStr, lastEndTimeStr = contrastTimeStr(year-1, month, day)
     # 查询去年的数据
     lastYearData = queryContrastData(lastStartTimeStr, lastEndTimeStr)
+    # 查询库存数据
+    stockArr = queryStockArr(currentStartTimeStr, currentEndTimeStr)
+    print('stockArr------',stockArr)
 
-    return JsonResponse([lastYearData, currentYearData], safe=False)
+    return JsonResponse([lastYearData, currentYearData, stockArr], safe=False)
+
+def queryStockArr(currentStartTimeStr, currentEndTimeStr):
+    # 建立游标对象
+    cursor = connection.cursor()
+    # 拼接查询海吉星蔬菜来货总量对比数据的sql语句
+    sqlStr = '''select
+                    "SUBSTR"("TO_CHAR"("create_time", 'YYYY-MM-DD HH24:mi:ss'),0,10),
+                    "amount"
+                from VEGETABLE_STOCK
+                where "create_time" BETWEEN "TO_DATE"(%s) AND "TO_DATE"(%s)
+                ORDER BY "SUBSTR"("TO_CHAR"("create_time", 'YYYY-MM-DD HH24:mi:ss'),0,10)''' % (currentStartTimeStr, currentEndTimeStr)
+    # print('sqlStr------', sqlStr)
+    # 游标对象执行sql语句
+    cursor.execute(sqlStr)
+    # 取到游标对象里面的执行结果
+    result = cursor.fetchall()
+    resArray = []
+    # 将结果转换为数组
+    for item in result:
+        # 将各项数据转换为数组再插入到结果集中
+        resArray.append(list(item))
+    return resArray
+
+
 
 def contrastTimeStr(year, month, day):
     endTimeStr = "'%s-%s-%s 23:59:59', 'YYYY-MM-DD HH24:mi:ss'" % (str(year), str(month), str(day))
@@ -359,15 +578,18 @@ def queryContrastData(startTimeStr, endTimeStr):
     # 建立游标对象
     cursor = connection.cursor()
     # 拼接查询海吉星蔬菜来货总量对比数据的sql语句
-    sqlStr = '''select
-                    "SUBSTR"("TO_CHAR"(v.GROSSTIME, 'YYYY-MM-DD HH24:mi:ss'),0,10),
-                    "ROUND"("SUM"(v.NETWEIGHT)/1000, 0)
-                from V_REPPONDER_PRODUCT_V2 v
-                where v.GROSSTIME BETWEEN "TO_DATE"(%s) AND "TO_DATE"(%s)
-                and v.BI_goodssortna like '%%蔬菜%%'
-                GROUP BY "SUBSTR"("TO_CHAR"(v.GROSSTIME, 'YYYY-MM-DD HH24:mi:ss'),0,10)
-                ORDER BY "SUBSTR"("TO_CHAR"(v.GROSSTIME, 'YYYY-MM-DD HH24:mi:ss'),0,10)'''%(startTimeStr, endTimeStr)
-    print(sqlStr)
+    sqlStr = ''' SELECT 
+                "SUBSTR"("TO_CHAR"(A.GROSSTIME, 'YYYY-MM-DD HH24:mi:ss'),0,10),
+                "ROUND"("SUM"(A.NETWEIGHT)/1000, 0)
+                FROM V_REPPONDER_PRODUCT_V3 A
+                WHERE 
+                   A.GROSSTIME >=TO_DATE(%s)
+                   AND A.GROSSTIME <TO_DATE(%s)
+                   AND (INSTR(A.PRODUCTTYPEID_N, '14') > 0)
+                   AND (CASE WHEN (A.BILLSTATE_ID = 1) AND (A.BILLSTATE = 1) THEN 1 ELSE 2 END) = 1
+                GROUP BY "SUBSTR"("TO_CHAR"(A.GROSSTIME, 'YYYY-MM-DD HH24:mi:ss'),0,10)
+                ORDER BY "SUBSTR"("TO_CHAR"(A.GROSSTIME, 'YYYY-MM-DD HH24:mi:ss'),0,10)'''%(startTimeStr, endTimeStr)
+    # print(sqlStr)
     # 游标对象执行sql语句
     cursor.execute(sqlStr)
     # 取到游标对象里面的执行结果

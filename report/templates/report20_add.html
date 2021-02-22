@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>数据输入界面</title>
+    <link rel="stylesheet" href="../static/css/calender.css">
+    <link rel="stylesheet" href="../static/css/report20_add.css">
+</head>
+<body>
+{#    <button type="button" id="openDialog">点击添加数据</button>#}
+<section>
+    <p class="head">蔬菜每日库存(吨)</p>
+    <p class="tip">提示：先点击 <点击修改或者添加数据> 按钮，再填写今日库存</p>
+
+
+    {# 日历时间选择器 #}
+    <div class="dateDiv">
+        <label>　　　　　报表日期：</label>
+        <input type="text" class="date_picker list-input">
+        <p><button class="show">点击修改或者添加数据</button></p>
+    </div>
+
+    <div class="budget_allyear">
+        <label>　　　　　　　库存：</label>
+        <input type="text" placeholder=" 请输入库存" id="amount" class="list-input">
+    </div>
+
+    <div class="submit">
+        <button class="update" disabled="disabled">确认修改数据</button>
+        <button class="add" disabled="disabled">确认添加数据</button>
+    </div>
+</section>
+
+</body>
+
+<script src="../static/js/jquery-1.12.4.min.js"></script>
+<script src="../static/js/jquery.date_input.pack02.js"></script>
+<script src="../static/js/report20_add.js">
+
+
+</script>
+</html>

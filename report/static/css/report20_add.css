@@ -1,0 +1,50 @@
+section {
+  min-width: 400px;
+  margin: 60px auto;
+  text-align: center;
+}
+.head {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+.tip{
+  color: red;
+}
+
+#item_name{
+  height: 20px;
+  width: 192px;
+  margin-top: 10px;
+  margin-left: 4px;
+  border: solid 1px #cccccc;
+}
+
+.list-input{
+  margin-top: 10px;
+  margin-left: 4px;
+  height: 24px;
+  width: 190px;
+  border: solid 1px #cccccc;
+}
+
+.show {
+  margin-top: 10px;
+  margin-left: 126px;
+  height: 28px;
+  width: 180px;
+  display: inline-block;
+}
+
+.submit{
+  margin-top: 10px;
+  margin-left: 128px;
+}
+
+.submit button{
+  width: 90px;
+  height: 30px;
+}
+
+.add{
+  margin-left: 8px;
+}

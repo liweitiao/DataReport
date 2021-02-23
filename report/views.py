@@ -625,6 +625,8 @@ def querySourceData(currentQueryStr, nextQueryStr):
                     "ROUND"("SUM"(v.NETWEIGHT)/1000, 0)
                 from V_REPPONDER_PRODUCT_V2 v
                 where v.GROSSTIME BETWEEN "TO_DATE"(%s) AND "TO_DATE"(%s)
+                AND (INSTR(v.PRODUCTTYPEID_N, '14') > 0)
+AND (CASE WHEN (v.BILLSTATE_ID = 1) AND (v.BILLSTATE = 1) THEN 1 ELSE 2 END) = 1
                 GROUP BY "SUBSTR"(v.PROVINCECITYNAME,0,2)
                 ORDER BY "SUM"(v.NETWEIGHT) desc'''%(currentQueryStr, nextQueryStr)
     # 游标对象执行sql语句

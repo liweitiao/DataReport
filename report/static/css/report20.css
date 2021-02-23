@@ -22,7 +22,7 @@
 
 #contrast {
   width: 1100px;
-  height: 400px;
+  height: 360px;
 }
 
 #trend {
@@ -30,19 +30,32 @@
   height: 400px;
 }
 
-#type_compare {
-  width: 800px;
+.type_compare_and_contrast_analysis {
+  width: 950px;
   height: 400px;
-  margin-left: 200px;
+  margin-left: 80px;
+  overflow: hidden;
 }
 
+
 .contrast_type_compare_analysis {
-  width: 800px;
-  /* height: 200px; */
-  margin-left: 220px;
+  width: 380px;
+  height: 100%;
   text-align: left;
-  /* background: #c6d282; */
+  margin-top: 100px;
+  float: left;
+  /* background-color: #404060; */
 }
+
+#type_compare {
+  width: 560px;
+  height: 100%;
+  /* margin-left: 200px; */
+  float: left;
+  /* background-color: #c6d282; */
+}
+
+
 
 .contrast_analysis {
   width: 100%;
@@ -70,6 +83,13 @@
   margin-left: 60px;
 }
 
+#source03 {
+  width: 1100px;
+  height: 500px;
+  margin-left: 20px;
+  /* background-color: #c6d282; */
+}
+
 .source_analysis {
   width: 940px;
   /* height: 200px; */
@@ -83,22 +103,24 @@
 }
 
 .sales {
-  width: 800px;
-  height: 400px;
+  width: 1000px;
+  height: 300px;
   margin-left: 80px;
+  border: #d0d0d0 1px solid;
   overflow: hidden;
 }
 
 #sales_destination {
-  width: 420px;
-  height: 400px;
+  width: 520px;
+  height: 300px;
   float: left;
 }
 
 #sales_destination_analysis {
-  width: 360px;
-  height: 400px;
+  width: 460px;
+  height: 300px;
   float: left;
+  border-left: #d0d0d0 1px solid;
   padding-top: 160px;
 }
 
@@ -122,6 +144,7 @@
 
 .h2_stock {
   margin-left: 440px;
+  margin-top: 250px;
 }
 
 .stock_table {
@@ -201,7 +224,7 @@ tbody tr {
 }
 
 .dynamic_table {
-  margin-left: 200px;
+  margin-left: 140px;
 }
 
 .dynamic_table_head {

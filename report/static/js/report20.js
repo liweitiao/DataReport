@@ -59,7 +59,7 @@ var contrast = function () {
                             {
                                 type: 'bar',
                                 name: (nowYear - 1) + '年',
-                                barWidth: 10,
+                                barWidth: 12,
                                 data: lastYearData,
                                 itemStyle: {
                                     normal: {
@@ -73,7 +73,7 @@ var contrast = function () {
                             {
                                 type: 'bar',
                                 name: nowYear + '年',
-                                barWidth: 10,
+                                barWidth: 12,
                                 data: currentYearData,
                                 itemStyle: {
                                     normal: {
@@ -348,8 +348,8 @@ var type_compare_analysis = function (type1Data, type2Data) {
     var type2 = ''
     var type1Ratio = ''
     var type2Ratio = ''
-    type1 = (type1Data[1] > type1Data[0]) ? '增加' : '下降'
-    type2 = (type2Data[1] > type2Data[0]) ? '增加' : '下降'
+    type1 = (type1Data[1] > type1Data[0]) ? '上升' : '下降'
+    type2 = (type2Data[1] > type2Data[0]) ? '上升' : '下降'
     type1Ratio = Math.abs(((type1Data[1] - type1Data[0]) / type1Data[0] * 100).toFixed(0)) + '%'
     type2Ratio = Math.abs(((type2Data[1] - type2Data[0]) / type2Data[0] * 100).toFixed(0)) + '%'
     var text = `2.蔬菜来货品类中，鲜菜类来货${type1Data[1]}吨， 环比${type1}${type1Ratio}； 硬口类来货${type2Data[1]}吨，环比${type2}${type2Ratio}。`
@@ -443,8 +443,8 @@ var source01 = function () {
               dayArr.push(nowMonth + '月' + nowDay + '日')
               // console.log('dataToPie', dataToPie)
 
-              source02(source01Title, dataToPie)
-
+            //   source02(source01Title, dataToPie)
+              source03(source01Title, dataToPie)
 
               var myChart = echarts.init(document.getElementById('source02'));
               var option = {
@@ -477,7 +477,7 @@ var source01 = function () {
                           {
                               type: 'bar',
                               name: dayArr[0],
-                              barWidth: 10,
+                              barWidth: 15,
                               data: lastDayData,
                               itemStyle: {
                                   normal: {
@@ -491,7 +491,7 @@ var source01 = function () {
                           {
                               type: 'bar',
                               name: dayArr[1],
-                              barWidth: 10,
+                              barWidth: 15,
                               data: currentDayData,
                               itemStyle: {
                                   normal: {
@@ -509,7 +509,7 @@ var source01 = function () {
               myChart.setOption(option);
 
               // 生成来源地文字分析
-              source_analysis(currentSourceArr, currentDayData, lastDayData)
+              source_analysis(currentSourceArr, currentDayData, lastDayData, data[0])
           }
       })
   })
@@ -517,10 +517,216 @@ var source01 = function () {
 // source01()
 
 
-var source_analysis = function (currentSourceArr, currentDayData, lastDayData) {
+
+var source03 = function (source01Title, dataToPie) {
+
+// console.log(source01Title, dataToPie)
+
+    var myChart = echarts.init(document.getElementById('source03'))
+
+let markLineData = []
+// let source = [
+//     ['product', '2015', '2016'],
+//     ['系列1-1', 43.3],
+//     ['系列1-2', 83.1],
+//     ['系列1-3', 86.4],
+//     ['系列1-4', 72.4],
+//     ['系列1-5', 72.4],
+//     ['系列2-1', 53.9],
+//     ['系列2-2', 85.8],
+//     ['系列2-3', 145.8],
+// ]
+
+let source = [
+    ['province', '2015', '2016']
+]
+let otherLen = 0
+let sum = 0
+for (let i = 0; i < dataToPie.length; i++) {
+    source.push([dataToPie[i].name, dataToPie[i].value])
+    sum += dataToPie[i].value
+    // 小于200吨的都归为其它
+    if (otherLen === 0 && dataToPie[i].value < 150) {
+        otherLen = dataToPie.length - i
+    }
+}
+
+// 处理百分比的问题
+var percent = ''
+for (let i = 1; i < source.length; i++) {
+    percent = ' ' + ((source[i][1] / sum) * 100).toFixed(1) + '%'
+    source[i][0] += percent 
+}
+
+console.log(otherLen)
+
+// 添加“其他”
+addOtherData(source, otherLen);
+
+option = {
+    title: {
+        text: source01Title,
+        x: 'center'
+    },
+    // legend: {},
+    // tooltip: {},
+    dataset: {
+        source: source
+    },
+    series: [{
+            type: 'pie',
+            radius: "50%",
+            center: ['25%', '50%'],
+            label: {
+                show: true,
+                position: "inside",
+            },
+            startAngle: 45, // 起始角度 45 
+            clockwise: false, // 逆时针 
+            markLine: {
+                lineStyle: {
+                    type: 'solid',
+                    color: "#BFBFBF"
+                },
+                symbol: 'none',
+                data: markLineData
+            }
+        },
+        {
+            type: 'pie',
+            radius: "30%",
+            center: ['75%', '50%'],
+            encode: {
+                itemName: 'province',
+                value: '2016',
+            },
+            label: {
+                show: true,
+                position: ""
+            },
+        }
+    ]
+};
+console.log('option-----', option)
+ myChart.setOption(option);
+
+// 获取表标线 对应点坐标
+function getMarkLineData(percent) {
+    // 1.获取画布 width,height
+    let height = myChart.getHeight()
+    let width = myChart.getWidth()
+
+    // 2.  根据 series[0].center 获取圆心坐标
+    let x0 = width * 0.25 // 圆心x轴坐标
+
+    //3.圆边上点坐标
+    // let x1   =   x0   +   r   *   cos(ao   *   3.14   /180   )
+    // let y1   =   y0   +   r   *   sin(ao   *   3.14   /180   )
+
+    // “其他” 终点坐标series[0].startAngle 45
+    let x1 = x0 + (height / 4) * Math.cos(45 * 3.14 / 180)
+    let y1 = (height * 0.5) - (height / 4) * Math.sin(45 * 3.14 / 180)
+
+    let ao = 360 * (percent / 100) // 扇形角度
+
+    let ao1 = 0 // 用来计算的坐标角度
+    ao1 = (ao <= 45) ? (45 - ao) : (360 - (ao - 45))
+    if (ao1 < 270 && ao1 > 45) ao1 = 270 // 角度当270用，要不样式不好看
+
+    let x2 = 0,
+        y2 = 0;
+    x2 = x0 + (height / 4) * Math.cos(ao1 * 3.14 / 180)
+    y2 = (height * 0.5) - (height / 4) * Math.sin(ao1 * 3.14 / 180)
+
+    return [
+        [{
+            x: x1,
+            y: y1
+        }, {
+            x: "75%",
+            y: "35%"
+        }],
+        [{
+            x: x2,
+            y: y2
+        }, {
+            x: "75%",
+            y: "65%"
+        }]
+    ]
+}
+// 添加其他 
+function addOtherData(datasetSource, len) {
+    let percent = 0
+    let sum = 0 // 总计
+    datasetSource.forEach((data, rowIndex) => {
+        if (rowIndex > 0) {
+            let count = 0
+            for (let key of data) {
+                let value = isNaN(key) ? 0 : Number(key)
+                if (count === 1) sum += value
+                count++
+            }
+        }
+    })
+    let endData = datasetSource.slice(datasetSource.length - len)
+    let other = ["其他"]
+    for (let i = 0; i < endData.length; i++) {
+        let j = 0;
+        for (let key of endData[i]) {
+            let value = isNaN(key) ? 0 : key
+            if (j) other[j] ? (other[j] += value) : other.push(value)
+            j++
+        }
+        endData[i].splice(1, 0, "")
+    }
+    datasetSource.push(other)
+    // 处理其他的占比
+    let sumAll = 0
+    let sumLen = 0
+    for (let i = 1; i < datasetSource.length - 1; i++) {
+        sumAll += datasetSource[i][datasetSource[i].length - 1]
+        if (i >= len) {
+            sumLen += datasetSource[i][datasetSource[i].length - 1]
+        }
+    }
+
+    console.log(sumAll, sumLen)
+    datasetSource[datasetSource.length - 1][0] += ' ' + ((sumLen / sumAll) * 100).toFixed(1) + '%'
+    console.log(sum)
+
+
+    console.log('datasetSource-----', datasetSource)
+    // "其他"占比
+    percent = sum ? ((other[1] / sum) * 100).toFixed(2) : 100
+    markLineData = getMarkLineData(percent)
+    console.log('markLineData-----', markLineData)
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var source_analysis = function (currentSourceArr, currentDayData, lastDayData, currentSource) {
     // console.log('analysis', currentDayData, lastDayData)
     var sum = 0
     var len = currentDayData.length
+    var currentSourceLen = currentSource.length
     var ratio1 = ''
     var ratio2 = ''
     var ratio3 = ''
@@ -555,17 +761,17 @@ var source_analysis = function (currentSourceArr, currentDayData, lastDayData) {
             if (changeArr01[i] === changeArr02[j]) {
                 var type = changeArr01[i] > 0 ? '增加' : '减少'
                 var num = Math.abs(changeArr01[i])
-                var ratio = Math.abs((changeArr01[i] / lastDayData[i] * 100).toFixed(0)) + '%'
+                var ratio = Math.abs((changeArr01[i] / lastDayData[j] * 100).toFixed(0)) + '%'
                 var location = currentSourceArr[j]
                 changeArr.push([location, type + num + '吨', type.slice(0, 1) + '幅' + ratio]) 
             }
         }
     }
 
-    var text = `1.来货产地结构方面， 共计有${len}个产地来货，其中主要以${currentSourceArr[0]}、${currentSourceArr[1]}及${currentSourceArr[2]}为主，分别占比${ratio1}、${ratio2}、${ratio3}。
+    var text = `1.来货产地结构方面， 共计有${currentSourceLen}个产地来货，其中主要以${currentSourceArr[0]}、${currentSourceArr[1]}及${currentSourceArr[2]}为主，分别占比${ratio1}、${ratio2}、${ratio3}。
                 <br/>2.与昨日相比来货变动较大的产地主要有${changeArr[0][0]}(${changeArr[0][1]}，${changeArr[0][2]})、${changeArr[1][0]}(${changeArr[1][1]}，${changeArr[1][2]})、${changeArr[2][0]}(${changeArr[2][1]}，${changeArr[2][2]})。`
 
-    var text02 = `3.来货产地结构方面， 共计有${len}个产地来货，其中主要以${currentSourceArr[0]}、${currentSourceArr[1]}及${currentSourceArr[2]}为主，分别占比${ratio1}、${ratio2}、${ratio3}。
+    var text02 = `3.来货产地结构方面， 共计有${currentSourceLen}个产地来货，其中主要以${currentSourceArr[0]}、${currentSourceArr[1]}及${currentSourceArr[2]}为主，分别占比${ratio1}、${ratio2}、${ratio3}。
                 <br/>4.与昨日相比来货变动较大的产地主要有${changeArr[0][0]}(${changeArr[0][1]}，${changeArr[0][2]})、${changeArr[1][0]}(${changeArr[1][1]}，${changeArr[1][2]})、${changeArr[2][0]}(${changeArr[2][1]}，${changeArr[2][2]})。`
     
     $(function () {
@@ -734,11 +940,11 @@ var price_trend_analysis = function (data02, data) {
         type = '有所减少'
     }
     
-    var text = `1.重点监测的20个蔬菜单品整体均价为${data[data.length - 1][1]}元/kg, 与昨日${type}。
-                <br/>2.所有产品价格波动均在${max}以内。`
+    var text = `1.重点监测的20个蔬菜单品整体均价为${data[data.length - 1][1]}元/kg, 与昨日持平，波动较大的产品为大白菜(上升47.1%)、西红柿(上升28.6%)、莴笋(上升23.3%)、胡萝卜(上升16.7%)、茄子(下降13.3%)、豆角(上升10%)。
+    其它所有产品价格波动均在10%以内。`
 
-    var text02 = `6.重点监测的20个蔬菜单品整体均价为${data[data.length - 1][1]}元/kg, 与昨日${type}。
-                <br/>7.所有产品价格波动均在${max}以内。`
+    var text02 = `6.重点监测的20个蔬菜单品整体均价为${data[data.length - 1][1]}元/kg, 与昨日持平，波动较大的产品为大白菜(上升47.1%)、西红柿(上升28.6%)、莴笋(上升23.3%)、胡萝卜(上升16.7%)、茄子(下降13.3%)、豆角(上升10%)。
+                其它所有产品价格波动均在10%以内。`
         
     $(function () {
         $('.price_trend_analysis').html(text)
@@ -865,7 +1071,7 @@ var handle_supply_table = function (data) {
 
 var supply_analysis = function (data) {
     console.log('supply----', data)
-    var text = `8.市场前20名客户总来货量为${data[0]}吨， 占总来货量的${data[1]}`
+    var text = `7.市场前20名客户总来货量为${data[0]}吨， 占总来货量的${data[1]}`
     $(function () {
         $('.summary_supply_analysis').html(text)
     })
@@ -903,7 +1109,7 @@ var dynamic_problem = function () {
         })
     })
 }
-dynamic_problem()
+// dynamic_problem()
 
 var handle_dynamic_table = function (data) {
     var len = data.length
@@ -914,3 +1120,13 @@ var handle_dynamic_table = function (data) {
         $('.js-dynamic-head').after(htmlStr)
     }
 }
+
+
+// 统一进行请求
+contrast()
+type_compare()
+source01()
+price_trend()
+sales_destination()
+supply()
+dynamic_problem()

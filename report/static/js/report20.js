@@ -684,9 +684,11 @@ function addOtherData(datasetSource, len) {
     // 处理其他的占比
     let sumAll = 0
     let sumLen = 0
+    console.log('len-------', len)
     for (let i = 1; i < datasetSource.length - 1; i++) {
         sumAll += datasetSource[i][datasetSource[i].length - 1]
-        if (i >= len) {
+        if (i > datasetSource.length - len - 2) {
+            console.log('----len', datasetSource[i][datasetSource[i].length - 1])
             sumLen += datasetSource[i][datasetSource[i].length - 1]
         }
     }
@@ -919,7 +921,7 @@ var price_trend = function () {
 
 // 价格统计的文字分析
 var price_trend_analysis = function (data02, data) {
-    console.log(data)
+    console.log('data-----====', data)
     // 计算价格波动最大的值
     var max = Math.abs(data02[0][4].split('%')[0])
     var temp = 0
@@ -932,24 +934,55 @@ var price_trend_analysis = function (data02, data) {
 
     max = Math.ceil(max) + '%'
     var type = ''
-    if ( Number(data[data.length - 1]) > Number(data[data.length - 2])) {
-        type = '有所增加'
-    } else if (Number(data[data.length - 1]) === Number(data[data.length - 2])) {
-        type = '持平'
-    } else {
-        type = '有所减少'
-    }
-    
-    var text = `1.重点监测的20个蔬菜单品整体均价为${data[data.length - 1][1]}元/kg, 与昨日持平，波动较大的产品为大白菜(上升47.1%)、西红柿(上升28.6%)、莴笋(上升23.3%)、胡萝卜(上升16.7%)、茄子(下降13.3%)、豆角(上升10%)。
-    其它所有产品价格波动均在10%以内。`
 
-    var text02 = `6.重点监测的20个蔬菜单品整体均价为${data[data.length - 1][1]}元/kg, 与昨日持平，波动较大的产品为大白菜(上升47.1%)、西红柿(上升28.6%)、莴笋(上升23.3%)、胡萝卜(上升16.7%)、茄子(下降13.3%)、豆角(上升10%)。
-                其它所有产品价格波动均在10%以内。`
-        
+    // 处理单日价格环比问题
+    var todayPrice = Number(data[data.length - 1][1])
+    var yesterDayPrice = Number(data[data.length - 2][1])
+    var DoD = ((todayPrice - yesterDayPrice) / yesterDayPrice * 100).toFixed(0)
+
+    if (Math.abs(DoD) <= 1) {
+        type = '与昨日持平'
+    } else if (DoD > 1) {
+        type = `环比上升${DoD}%`
+    } else {
+        type = `环比下降${Math.abs(DoD)}%`
+    }
+
+    // 处理价格波动大于10%的蔬菜
+    var percentStr = ''
+    var maxArr = []
+    var maxStr = ''
+    for (let i = 0; i < data02.length - 1; i++) {
+        percentStr = parseFloat(data02[i][4])
+        // console.log('percentStr------', percentStr)
+        if (Math.abs(percentStr) >= 10 && (percentStr > 0)) {
+            maxStr = `${data02[i][0]}(上升${data02[i][4]})`
+            maxArr.push(maxStr)
+        }
+        if (Math.abs(percentStr) >= 10 && (percentStr < 0)) {
+            maxStr = `${data02[i][0]}(下降${Math.abs(percentStr)}%)`
+            maxArr.push(maxStr)
+        }
+    }
+
+    var text = `1.重点监测的20个蔬菜单品整体均价为${data[data.length - 1][1]}元/kg, ${type}，`
+
+    var text02 = `6.重点监测的20个蔬菜单品整体均价为${data[data.length - 1][1]}元/kg, ${type}，`
+      
+    for (let i = 0; i < maxArr.length; i++) {
+         text = text + maxArr[i] + '、'
+         text02 = text02 + maxArr[i] + '、'
+    }
+    text += '其他产品价格波动均在10%以内。'
+    text02 += '其他产品价格波动均在10%以内。'
+    console.log('text-----', text, text02)
     $(function () {
         $('.price_trend_analysis').html(text)
         $('.summary_price_trend_analysis').html(text02)
     })
+
+    // 最后再处理价格分析问题
+    price_analysis()
 }
 
 
@@ -1115,9 +1148,43 @@ var handle_dynamic_table = function (data) {
     var len = data.length
     // 处理均价
     if (len > 1) {
-        // 处理合计
         htmlStr = `<tr class="js-add"><td>${data[1]}</td><td>${data[2]}</td></tr>`
+        var text = `8.市场动态：${data[1]}<br>
+                    9.市场问题：${data[2]}`
         $('.js-dynamic-head').after(htmlStr)
+        $('.summary_dynamic_analysis').html(text)
+    } else {
+        var text = `8.市场动态：无<br>
+                    9.市场问题：无`
+
+        $('.summary_dynamic_analysis').html(text)
+
+    }
+}
+
+// 价格分析
+var price_analysis = function () {
+    $(function () {
+        $.ajax({
+            type: "get",
+            url: "baobiao20_add_priceAnalysis_queryAnalysis",
+            timeout: 100000,
+            data: {year:nowYear, month:nowMonth, day:nowDay},
+            success: function (data) {
+                handle_price_analysis(data)
+            }
+        })
+    })
+}
+
+var handle_price_analysis = function (data) {
+    var len = data.length
+    console.log('price-analysis------', data)
+    // 处理均价
+    if (len > 1) {
+        var text = `2.${data[1]}`
+        $('.price_analysis').html(text)
+        $('.summary_price_trend_analysis').append(data[1])
     }
 }
 
@@ -1127,6 +1194,8 @@ contrast()
 type_compare()
 source01()
 price_trend()
+
 sales_destination()
 supply()
 dynamic_problem()
+

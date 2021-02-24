@@ -37,9 +37,73 @@ def report20_add(request):
 
 def report20_add_dynamic(request):
     return  render(request, 'report20_add_dynamic.html')
+
+def report20_add_priceAnalysis(request):
+    return  render(request, 'report20_add_priceAnalysis.html')
 # ------------------------------蔬菜供应-------------------------------
 
 # -------------------蔬菜部供应统计0116开发-------------------
+def baobiao20_add_priceAnalysis_queryAnalysis(request):
+    year = int(request.GET.get('year'))
+    month = int(request.GET.get('month'))
+    day = int(request.GET.get('day'))
+    timeStr = '%d-%d-%d' % (year, month, day)
+    startTime = timeStr + ' 00:00:00'
+    endTime = timeStr + ' 23:59:59'
+    # print(startTime, endTime)
+    res = queryAnalysis(startTime, endTime)
+
+    return JsonResponse(res, safe=False)
+
+def queryAnalysis(startTime, endTime):
+    # 建立游标对象
+    cursor = connection.cursor()
+    # 拼接查询海吉星蔬菜来货总量对比数据的sql语句
+    sqlStr = ''' SELECT
+                    t."itemId", t."analysis"
+                 FROM
+                 "price_analysis" t
+                 where t."create_time" between to_date('%s', 'YYYY-MM-DD HH24:mi:ss') and to_date('%s', 'YYYY-MM-DD HH24:mi:ss')
+                 ''' % (startTime, endTime)
+    # 游标对象执行sql语句
+    cursor.execute(sqlStr)
+    # 取到游标对象里面的执行结果
+    result = cursor.fetchall()
+    res = []
+    if len(result) > 0:
+        res.append(result[0][0])
+        res.append(result[0][1])
+
+    return res
+
+def baobiao20_add_priceAnalysis_addAnalysis(request):
+    year = int(request.GET.get('year'))
+    month = int(request.GET.get('month'))
+    day = int(request.GET.get('day'))
+    newAnalysis = request.GET.get('newAnalysis')
+    timeStr = '%d-%d-%d 11:11:11' % (year, month, day)
+    # 执行数据update操作, 返回更新影响的行数
+    rowcount = addAnalysis(timeStr, newAnalysis)
+
+    return JsonResponse(rowcount, safe=False)
+
+def addAnalysis(timeStr, newAnalysis):
+    # 建立游标对象
+    cursor = connection.cursor()
+    # 拼接update的sql语句
+    sqlStr = ''' insert into "price_analysis" ("itemId", "analysis", "create_time")
+                values(price_itemId_Seq.nextval, '%s', "TO_DATE"('%s', 'YYYY-MM-DD HH24:mi:ss'))''' % (newAnalysis, timeStr)
+    # 游标对象执行sql语句
+    cursor.execute(sqlStr)
+    # # 取到游标对象里面的执行结果
+    rowcount = cursor.rowcount
+    cursor.execute('commit')
+
+    return rowcount
+
+
+
+
 def baobiao20_add_dynamic_addDynamic(request):
     year = int(request.GET.get('year'))
     month = int(request.GET.get('month'))
@@ -66,7 +130,33 @@ def addDynamic(timeStr, newDynamic, newProblem):
 
     return rowcount
 
+def baobiao20_add_priceAnalysis_updateAnalysis(request):
+    year = int(request.GET.get('year'))
+    month = int(request.GET.get('month'))
+    day = int(request.GET.get('day'))
+    item_id = int(request.GET.get('item_id'))
+    newAnalysis = request.GET.get('newAnalysis')
+    timeStr = '%d-%d-%d 11:11:11' % (year, month, day)
+    # 执行数据update操作, 返回更新影响的行数
+    rowcount = updateAnalysis(timeStr, item_id , newAnalysis)
 
+    return JsonResponse(rowcount, safe=False)
+
+def updateAnalysis(timeStr, item_id , newAnalysis):
+    # 建立游标对象
+    cursor = connection.cursor()
+    # 拼接update的sql语句
+    sqlStr = '''update "price_analysis"
+                    set "analysis"='%s', "create_time"="TO_DATE"('%s', 'YYYY-MM-DD HH24:mi:ss')
+                where "itemId"=%d;''' % (newAnalysis, timeStr, item_id)
+    print(sqlStr)
+    # 游标对象执行sql语句
+    cursor.execute(sqlStr)
+    # 取到游标对象里面的执行结果
+    rowcount = cursor.rowcount
+    cursor.execute('commit')
+
+    return rowcount
 
 
 
@@ -98,9 +188,6 @@ def updateDynamic(timeStr, item_id , newDynamic, newProblem):
     cursor.execute('commit')
 
     return rowcount
-
-
-
 
 def baobiao20_add_dynamic_queryDynamic(request):
     year = int(request.GET.get('year'))

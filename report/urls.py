@@ -89,6 +89,14 @@ url(r'^report20_add_dynamic$', views.report20_add_dynamic),
 url(r'baobiao20_add_dynamic_queryDynamic$', views.baobiao20_add_dynamic_queryDynamic),
 url(r'baobiao20_add_dynamic_updateDynamic$', views.baobiao20_add_dynamic_updateDynamic),
 url(r'baobiao20_add_dynamic_addDynamic$', views.baobiao20_add_dynamic_addDynamic),
+
+url(r'^report20_add_priceAnalysis$', views.report20_add_priceAnalysis),
+url(r'baobiao20_add_priceAnalysis_queryAnalysis$', views.baobiao20_add_priceAnalysis_queryAnalysis),
+url(r'baobiao20_add_priceAnalysis_updateAnalysis$', views.baobiao20_add_priceAnalysis_updateAnalysis),
+url(r'baobiao20_add_priceAnalysis_addAnalysis$', views.baobiao20_add_priceAnalysis_addAnalysis),
+
+
+
     url(r'^baobiao01$', views.baobiao01),
     url(r'^cheliang$', views.cheliang),
     url(r'^chandi$', views.chandi),

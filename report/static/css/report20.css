@@ -142,6 +142,13 @@
   /* background: #c6d282; */
 }
 
+.price_analysis {
+  width: 940px;
+  margin-left: 100px;
+  text-align: left;
+  /* background: #c6d282; */
+}
+
 .h2_stock {
   margin-left: 440px;
   margin-top: 250px;
